@@ -71,7 +71,7 @@ def load_history():
 def run_extract():
     with RUN_LOCK:
         result = subprocess.run(
-            ["python", EXTRACT_PATH],
+            [sys.executable, EXTRACT_PATH],
             cwd=BASE_DIR,
             capture_output=True,
             text=True,
@@ -82,6 +82,10 @@ def run_extract():
 
 class DashboardHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
+        # Land visitors on the dashboard instead of a directory listing.
+        if self.path == "/":
+            self.path = "/dashboard.html"
+
         if self.path == "/api/books":
             payload = json.dumps(load_books()).encode("utf-8")
             self.send_response(200)
@@ -122,8 +126,10 @@ class DashboardHandler(SimpleHTTPRequestHandler):
 
 
 def run_server():
-    server = ThreadingHTTPServer(("0.0.0.0", 8001), DashboardHandler)
-    print("Serving on http://localhost:8001")
+    # Hosts like Render assign the port via the PORT env var.
+    port = int(os.environ.get("PORT", "8001"))
+    server = ThreadingHTTPServer(("0.0.0.0", port), DashboardHandler)
+    print(f"Serving on http://0.0.0.0:{port}")
     server.serve_forever()
 
 
@@ -150,10 +156,14 @@ def run_with_reloader():
 
 
 def main():
+    # Production (e.g. Render) runs the server directly. The file-watching
+    # auto-reloader is a dev convenience, opt in with DASHBOARD_RELOAD=1.
     if os.environ.get("DASHBOARD_CHILD") == "1":
         run_server()
-    else:
+    elif os.environ.get("DASHBOARD_RELOAD") == "1":
         run_with_reloader()
+    else:
+        run_server()
 
 
 if __name__ == "__main__":

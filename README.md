@@ -80,6 +80,30 @@ over time (ideally run daily).
 | `/api/history`  | All dated price snapshots, filtered to current books. |
 | `/api/refresh`  | Runs `extract.py` and returns the fresh data.      |
 
+## Deployment (Render)
+
+This runs as a plain Python web service — **not** a WSGI/gunicorn app — so use
+these settings when creating the Render Web Service:
+
+| Setting          | Value                              |
+| ---------------- | ---------------------------------- |
+| Language         | `Python 3`                         |
+| Build Command    | `pip install -r requirements.txt`  |
+| **Start Command**| `python3 server.py`                |
+
+The server automatically binds to the port Render provides via the `PORT`
+environment variable, and serves the dashboard at the service root (`/`).
+
+> **Note:** ignore Render's default `gunicorn your_application.wsgi` start command —
+> this app uses Python's standard-library HTTP server, so `python3 server.py` is the
+> correct start command.
+
+**Caveat — data persistence:** Render's filesystem is ephemeral. The **Refresh**
+button (and `extract.py`) will update prices on a running instance, but those writes
+to `history.json` / `results.json` are lost on the next deploy or restart. For
+durable history, attach a Render Disk or run the scraper on a schedule that commits
+back to the repo.
+
 ## Adding or editing tracked books
 
 Add an entry to `books.json`:
