@@ -1,0 +1,14 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy via Render → New → Blueprint (points at this repo). This encodes the
+# correct build/start commands so no manual dashboard configuration is needed.
+services:
+  - type: web
+    name: comic-book-price-tracker
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    # This app is a standard-library HTTP server (not WSGI), so it is started
+    # directly — NOT with gunicorn. It binds to the PORT env var Render provides.
+    startCommand: python3 server.py
+    healthCheckPath: /
