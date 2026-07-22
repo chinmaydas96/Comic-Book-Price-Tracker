@@ -1,0 +1,7 @@
+https://www.bookswagon.com/book/superman-by-grant-morrison-omnibus/9781779513977 | price: INR 5134 | in stock | https://schema.org/InStock
+https://www.bookswagon.com/book/green-lantern-omnibus-volume-3/9781401258207 | price: INR 6359 | in stock | https://schema.org/InStock
+https://www.bookswagon.com/book/green-lantern-by-geoff-johns/9781401255268 | price: INR 6359 | in stock | https://schema.org/InStock
+https://www.bookswagon.com/book/batman-by-scott-snyder-greg-capullo/9781779513267 | price: INR 6359 | in stock | https://schema.org/InStock
+https://www.bookswagon.com/book/flash-omnibus-brian-buccellato-francis/9781401261030 | price: INR 5864 | in stock | https://schema.org/InStock
+https://www.bookswagon.com/book/absolute-kingdom-come-new-edition/9781401284626 | price: INR 5099 | in stock | https://schema.org/InStock
+https://www.bookswagon.com/book/batman-by-grant-morrison-omnibus/9781401282998 | price: INR 3641 | out of stock | https://schema.org/OutOfStock

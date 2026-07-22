@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific
+.DS_Store
+.claude/
+# Saved Amazon page fixtures — large and contain stale anonymous session tokens
+amazon_sample.html
+amazon_sample_2.html

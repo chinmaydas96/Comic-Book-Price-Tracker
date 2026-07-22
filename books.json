@@ -1,0 +1,486 @@
+[
+  {
+    "id": "batman-loeb-sale-omnibus",
+    "name": "Batman by Jeph Loeb & Tim Sale Omnibus",
+    "franchise": "Batman",
+    "era": "Era 1: Early Post-Crisis (1986–1993)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781401284268",
+    "amazon_url": "https://www.amazon.in/dp/1401284264",
+    "manual_low": { "price": 5934, "date": "2026-03-29", "store": "Amazon" }
+  },
+  {
+    "id": "batman-legacy-vol-1",
+    "name": "Legacy Vol. 1",
+    "franchise": "Batman",
+    "era": "Era 2: Knightfall Era (1993–1999)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781401272029",
+    "amazon_url": "https://www.amazon.in/dp/1401272029"
+  },
+  {
+    "id": "batman-legacy-vol-2",
+    "name": "Legacy Vol. 2",
+    "franchise": "Batman",
+    "era": "Era 2: Knightfall Era (1993–1999)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781401277611",
+    "amazon_url": "https://www.amazon.in/dp/1401277616"
+  },
+  {
+    "id": "batman-road-to-no-mans-land",
+    "name": "Road to No Man's Land Omnibus",
+    "franchise": "Batman",
+    "era": "Era 2: Knightfall Era (1993–1999)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779506610",
+    "amazon_url": "https://www.amazon.in/dp/1779506619",
+    "manual_low": { "price": 6087, "date": "2025-07-14", "store": "Amazon" }
+  },
+  {
+    "id": "batman-no-mans-land-vol-2",
+    "name": "No Man's Land Omnibus Vol. 2",
+    "franchise": "Batman",
+    "era": "Era 2: Knightfall Era (1993–1999)",
+    "bookswagon_url": "https://www.bookswagon.com/book/batman-dennis-oneil-various/9781779517142",
+    "amazon_url": "https://www.amazon.in/Batman-Mans-Land-Omnibus-Vol/dp/1779517149"
+  },
+  {
+    "id": "batman-bruce-wayne-murderer-fugitive",
+    "name": "Bruce Wayne: Murderer Turned Fugitive Omnibus",
+    "franchise": "Batman",
+    "era": "Era 3: Gotham Rebuilding (2000–2005)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779528032",
+    "amazon_url": "https://www.amazon.in/dp/1779528035"
+  },
+  {
+    "id": "batman-gotham-central-omnibus",
+    "name": "Gotham Central Omnibus (optional companion)",
+    "franchise": "Batman",
+    "era": "Era 3: Gotham Rebuilding (2000–2005)",
+    "bookswagon_url": "https://www.bookswagon.com/book/gotham-central-omnibus-2022-edition/9781779515636",
+    "amazon_url": "https://www.amazon.in/gp/product/1779515634/"
+  },
+  {
+    "id": "batman-under-the-red-hood",
+    "name": "Under the Red Hood",
+    "franchise": "Batman",
+    "era": "Era 3: Gotham Rebuilding (2000–2005)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779523143",
+    "amazon_url": "https://www.amazon.in/dp/1779523149"
+  },
+  {
+    "id": "batman-war-games-omnibus",
+    "name": "Batman: War Games Omnibus",
+    "franchise": "Batman",
+    "era": "Era 3: Gotham Rebuilding (2000–2005)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799502142",
+    "amazon_url": "https://www.amazon.in/dp/1799502147"
+  },
+  {
+    "id": "batman-snyder-omnibus-vol-2",
+    "name": "Batman by Scott Snyder Omnibus Vol. 2",
+    "franchise": "Batman",
+    "era": "Era 5: New 52 (2011–2016)",
+    "bookswagon_url": "https://www.bookswagon.com/book/batman-by-scott-snyder-greg-capullo/9781779513267",
+    "amazon_url": "https://www.amazon.in/Batman-Scott-Snyder-Capullo-Omnibus/dp/1779513267"
+  },
+  {
+    "id": "batman-and-robin-tomasi-omnibus",
+    "name": "Batman & Robin by Tomasi Omnibus",
+    "franchise": "Batman",
+    "era": "Era 5: New 52 (2011–2016)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779517043",
+    "amazon_url": "https://www.amazon.in/dp/1779517041"
+  },
+  {
+    "id": "batman-detective-comics-new52-omnibus",
+    "name": "Detective Comics: The New 52 Omnibus Vol. 1",
+    "franchise": "Batman",
+    "era": "Era 5: New 52 (2011–2016)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799501947",
+    "amazon_url": "https://www.amazon.in/dp/1799501949"
+  },
+  {
+    "id": "batman-detective-comics-new52-omnibus-vol-2",
+    "name": "Detective Comics: The New 52 Omnibus Vol. 2",
+    "franchise": "Batman",
+    "era": "Era 5: New 52 (2011–2016)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508236",
+    "amazon_url": "https://www.amazon.in/dp/1799508234"
+  },
+  {
+    "id": "batman-eternal-omnibus",
+    "name": "Batman Eternal Omnibus",
+    "franchise": "Batman",
+    "era": "Era 5: New 52 (2011–2016)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779525796",
+    "amazon_url": "https://www.amazon.in/dp/1779525796"
+  },
+  {
+    "id": "batman-tom-king-omnibus-vol-1",
+    "name": "Batman by Tom King Omnibus Vol. 1",
+    "franchise": "Batman",
+    "era": "Era 6: Rebirth (2016–2021)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799502395",
+    "amazon_url": "https://www.amazon.in/dp/1799502392"
+  },
+  {
+    "id": "batman-tom-king-omnibus-vol-2",
+    "name": "Batman by Tom King Omnibus Vol. 2",
+    "franchise": "Batman",
+    "era": "Era 6: Rebirth (2016–2021)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508779",
+    "amazon_url": "https://www.amazon.in/dp/1799508773"
+  },
+  {
+    "id": "batman-rise-and-fall-of-the-batmen",
+    "name": "Rise and Fall of the Batmen Omnibus",
+    "franchise": "Batman",
+    "era": "Era 6: Rebirth (2016–2021)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779506658",
+    "amazon_url": "https://www.amazon.in/dp/1779506658"
+  },
+  {
+    "id": "jl-legends-omnibus",
+    "name": "Legends Omnibus",
+    "franchise": "Justice League",
+    "era": "Post-Crisis (1986)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799507826",
+    "amazon_url": "https://www.amazon.in/dp/1799507823"
+  },
+  {
+    "id": "jl-jli-omnibus-vol-1",
+    "name": "Justice League International Omnibus Vol. 1",
+    "franchise": "Justice League",
+    "era": "Justice League International (1987–1996)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781401273866",
+    "amazon_url": "https://www.amazon.in/dp/1401273866"
+  },
+  {
+    "id": "jl-jli-omnibus-vol-2",
+    "name": "Justice League International Omnibus Vol. 2",
+    "franchise": "Justice League",
+    "era": "Justice League International (1987–1996)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779502964",
+    "amazon_url": "https://www.amazon.in/dp/1779502966"
+  },
+  {
+    "id": "jl-jli-omnibus-vol-3",
+    "name": "Justice League International Omnibus Vol. 3",
+    "franchise": "Justice League",
+    "era": "Justice League International (1987–1996)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779525642",
+    "amazon_url": "https://www.amazon.in/dp/1779525648"
+  },
+  {
+    "id": "jl-jla-morrison-omnibus",
+    "name": "JLA by Grant Morrison Omnibus",
+    "franchise": "Justice League",
+    "era": "Era 1: Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779504999",
+    "amazon_url": "https://www.amazon.in/dp/1779504993"
+  },
+  {
+    "id": "jl-jla-mark-waid-omnibus",
+    "name": "JLA by Mark Waid Omnibus",
+    "franchise": "Justice League",
+    "era": "Era 1: Post-Crisis",
+    "bookswagon_url": null,
+    "amazon_url": "https://www.amazon.in/dp/1799509257"
+  },
+  {
+    "id": "jl-snyder-omnibus",
+    "name": "Justice League by Scott Snyder and James Tynion IV Omnibus Vol. 1",
+    "franchise": "Justice League",
+    "era": "Era 3: Rebirth",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799501053",
+    "amazon_url": "https://www.amazon.in/dp/1799501051"
+  },
+  {
+    "id": "jl-snyder-tynion-omnibus-vol-2",
+    "name": "Justice League by Scott Snyder and James Tynion IV Omnibus Vol. 2",
+    "franchise": "Justice League",
+    "era": "Era 3: Rebirth",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799506430",
+    "amazon_url": "https://www.amazon.in/dp/1799506436"
+  },
+  {
+    "id": "jld-new52-omnibus",
+    "name": "Justice League Dark: The New 52 Omnibus",
+    "franchise": "Justice League",
+    "era": "Justice League Dark (New 52)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513137",
+    "amazon_url": "https://www.amazon.in/dp/1779513135"
+  },
+  {
+    "id": "crisis-zero-hour",
+    "name": "Zero Hour",
+    "franchise": "Crisis / Universe Events",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779526304",
+    "amazon_url": "https://www.amazon.in/dp/177952630X"
+  },
+  {
+    "id": "crisis-infinite-crisis-omnibus",
+    "name": "Infinite Crisis Omnibus",
+    "franchise": "Crisis / Universe Events",
+    "era": "Infinite Crisis Era",
+    "bookswagon_url": "https://www.bookswagon.com/book/infinite-crisis-omnibus-jiminez-phil/9781779503442",
+    "amazon_url": "https://www.amazon.in/gp/product/177950344X/"
+  },
+  {
+    "id": "crisis-52-omnibus",
+    "name": "52 Omnibus",
+    "franchise": "Crisis / Universe Events",
+    "era": "Infinite Crisis Era",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779515438",
+    "amazon_url": "https://www.amazon.in/dp/177951543X",
+    "manual_low": { "price": 7214, "date": "2026-06-29", "store": "Amazon" }
+  },
+  {
+    "id": "crisis-final-crisis-omnibus",
+    "name": "Final Crisis Omnibus (shared with Batman/Morrison shelf)",
+    "franchise": "Crisis / Universe Events",
+    "era": "Final Crisis Era",
+    "bookswagon_url": "https://www.bookswagon.com/book/final-crisis-omnibus-new-printing/9781779501400",
+    "amazon_url": "https://www.amazon.in/gp/product/1779501404/"
+  },
+  {
+    "id": "crisis-blackest-night-omnibus",
+    "name": "Blackest Night Omnibus",
+    "franchise": "Crisis / Universe Events",
+    "era": "Lantern Era",
+    "bookswagon_url": "https://www.bookswagon.com/book/blackest-night-omnibus-10th-anniversary/9781401291198",
+    "amazon_url": "https://www.amazon.in/Blackest-Night-Omnibus-10th-Anniversary/dp/1401291198"
+  },
+  {
+    "id": "crisis-brightest-day-omnibus",
+    "name": "Brightest Day Omnibus",
+    "franchise": "Crisis / Universe Events",
+    "era": "Lantern Era",
+    "bookswagon_url": "https://www.bookswagon.com/book/brightest-day-omnibus-2022-edition/9781779516336",
+    "amazon_url": "https://www.amazon.in/gp/product/1779516339/"
+  },
+  {
+    "id": "crisis-dark-nights-metal-omnibus",
+    "name": "Dark Nights: Metal Omnibus",
+    "franchise": "Crisis / Universe Events",
+    "era": "Rebirth / Metal Era",
+    "bookswagon_url": "https://www.bookswagon.com/book/dark-nights-greg-capullo-scott/9781779517036",
+    "amazon_url": "https://www.amazon.in/gp/product/1779517033/"
+  },
+  {
+    "id": "crisis-dark-nights-death-metal-omnibus",
+    "name": "Dark Nights: Death Metal Omnibus",
+    "franchise": "Crisis / Universe Events",
+    "era": "Rebirth / Metal Era",
+    "bookswagon_url": "https://www.bookswagon.com/book/dark-nights-xermanico-greg-capullo/9781779523075",
+    "amazon_url": "https://www.amazon.in/gp/product/1779523076/",
+    "manual_low": { "price": 5390, "date": "2025-10-21", "store": "Amazon", "source": "Keepa" }
+  },
+  {
+    "id": "gl-geoff-johns-omnibus-vol-3",
+    "name": "Green Lantern by Geoff Johns Omnibus Vol. 3",
+    "franchise": "Green Lantern",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/green-lantern-omnibus-volume-3/9781401258207",
+    "amazon_url": "https://www.amazon.in/gp/product/1401258204/"
+  },
+  {
+    "id": "superman-man-of-steel-byrne-vol-1",
+    "name": "Superman: The Man of Steel by John Byrne Vol. 1",
+    "franchise": "Superman",
+    "era": "Post-Crisis Reboot (1986–1988)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779504913",
+    "amazon_url": "https://www.amazon.in/dp/1779504918"
+  },
+  {
+    "id": "superman-man-of-steel-byrne-vol-2",
+    "name": "Superman: The Man of Steel by John Byrne Vol. 2",
+    "franchise": "Superman",
+    "era": "Post-Crisis Reboot (1986–1988)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779505910",
+    "amazon_url": "https://www.amazon.in/dp/1779505914"
+  },
+  {
+    "id": "superman-man-of-steel-byrne-vol-3",
+    "name": "Superman: The Man of Steel by John Byrne Vol. 3",
+    "franchise": "Superman",
+    "era": "Post-Crisis Reboot (1986–1988)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779509666",
+    "amazon_url": "https://www.amazon.in/dp/1779509669"
+  },
+  {
+    "id": "superman-man-of-steel-byrne-vol-4",
+    "name": "Superman: The Man of Steel by John Byrne Vol. 4",
+    "franchise": "Superman",
+    "era": "Post-Crisis Reboot (1986–1988)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513212",
+    "amazon_url": "https://www.amazon.in/dp/1779513216"
+  },
+  {
+    "id": "superman-exile-omnibus",
+    "name": "Superman: Exile and Other Stories Omnibus",
+    "franchise": "Superman",
+    "era": "Exile (1988–1989)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779529527",
+    "amazon_url": "https://www.amazon.in/dp/177952952X"
+  },
+  {
+    "id": "superman-brainiac-reborn-omnibus",
+    "name": "Superman: Brainiac Reborn Omnibus",
+    "franchise": "Superman",
+    "era": "Triangle Era (1989–1994)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508229",
+    "amazon_url": "https://www.amazon.in/dp/1799508226"
+  },
+  {
+    "id": "superman-triangle-era-omnibus-vol-1",
+    "name": "Superman: The Triangle Era Omnibus Vol. 1",
+    "franchise": "Superman",
+    "era": "Triangle Era (1989–1994)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779528162",
+    "amazon_url": "https://www.amazon.in/dp/1779528167"
+  },
+  {
+    "id": "superman-triangle-era-omnibus-vol-2",
+    "name": "Superman: The Triangle Era Omnibus Vol. 2",
+    "franchise": "Superman",
+    "era": "Triangle Era (1989–1994)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799502777",
+    "amazon_url": "https://www.amazon.in/dp/1799502775"
+  },
+  {
+    "id": "superman-triangle-era-omnibus-vol-3",
+    "name": "Superman: The Triangle Era Omnibus Vol. 3",
+    "franchise": "Superman",
+    "era": "Triangle Era (1989–1994)",
+    "bookswagon_url": null,
+    "amazon_url": "https://www.amazon.in/dp/1799508765"
+  },
+  {
+    "id": "superman-last-son-deluxe",
+    "name": "Superman: The Last Son Deluxe Edition",
+    "franchise": "Superman",
+    "era": "Geoff Johns Era (2006–2009)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779509116",
+    "amazon_url": "https://www.amazon.in/dp/1779509111"
+  },
+  {
+    "id": "superman-secret-origin-deluxe",
+    "name": "Superman: Secret Origin Deluxe Edition",
+    "franchise": "Superman",
+    "era": "Geoff Johns Era (2006–2009)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781401295165",
+    "amazon_url": "https://www.amazon.in/dp/1401295169"
+  },
+  {
+    "id": "superman-new-krypton-saga-omnibus-vol-1",
+    "name": "Superman: New Krypton Saga Omnibus Vol. 1",
+    "franchise": "Superman",
+    "era": "New Krypton (2008–2010)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799507376",
+    "amazon_url": "https://www.amazon.in/dp/1799507378"
+  },
+  {
+    "id": "superman-tomasi-gleason-omnibus",
+    "name": "Superman by Peter Tomasi & Patrick Gleason Omnibus",
+    "franchise": "Superman",
+    "era": "Rebirth (2016–2018)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779509253",
+    "amazon_url": "https://www.amazon.in/dp/1779509251"
+  },
+  {
+    "id": "superman-action-comics-jurgens-omnibus-vol-1",
+    "name": "Superman: Action Comics by Dan Jurgens Omnibus Vol. 1",
+    "franchise": "Superman",
+    "era": "Rebirth (2016–2018)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799505112",
+    "amazon_url": "https://www.amazon.in/dp/1799505111"
+  },
+  {
+    "id": "superman-action-comics-jurgens-omnibus-vol-2",
+    "name": "Superman: Action Comics by Dan Jurgens Omnibus Vol. 2",
+    "franchise": "Superman",
+    "era": "Rebirth (2016–2018)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508533",
+    "amazon_url": "https://www.amazon.in/dp/1799508536"
+  },
+  {
+    "id": "flash-mark-waid-omnibus-vol-1",
+    "name": "Flash by Mark Waid Omnibus Vol. 1",
+    "franchise": "Flash",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513632",
+    "amazon_url": "https://www.amazon.in/dp/1779513631"
+  },
+  {
+    "id": "flash-mark-waid-omnibus-vol-2",
+    "name": "Flash by Mark Waid Omnibus Vol. 2",
+    "franchise": "Flash",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779528414",
+    "amazon_url": "https://www.amazon.in/dp/1779528418"
+  },
+  {
+    "id": "flash-mark-waid-omnibus-vol-3",
+    "name": "Flash by Mark Waid Omnibus Vol. 3",
+    "franchise": "Flash",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799507352",
+    "amazon_url": "https://www.amazon.in/dp/1799507351"
+  },
+  {
+    "id": "flash-morrison-millar-omnibus",
+    "name": "Flash by Grant Morrison & Mark Millar Deluxe Edition",
+    "franchise": "Flash",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779525802",
+    "amazon_url": "https://www.amazon.in/dp/177952580X"
+  },
+  {
+    "id": "flash-geoff-johns-omnibus-vol-1",
+    "name": "Flash by Geoff Johns Omnibus Vol. 1",
+    "franchise": "Flash",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781401295325",
+    "amazon_url": "https://www.amazon.in/dp/1401295320"
+  },
+  {
+    "id": "flash-geoff-johns-omnibus-vol-2",
+    "name": "Flash by Geoff Johns Omnibus Vol. 2",
+    "franchise": "Flash",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779507501",
+    "amazon_url": "https://www.amazon.in/dp/177950750X"
+  },
+  {
+    "id": "flash-geoff-johns-omnibus-vol-3",
+    "name": "Flash by Geoff Johns Omnibus Vol. 3",
+    "franchise": "Flash",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513458",
+    "amazon_url": "https://www.amazon.in/dp/1779513453"
+  },
+  {
+    "id": "flash-manapul-buccellato-omnibus",
+    "name": "Flash by Francis Manapul & Brian Buccellato Omnibus",
+    "franchise": "Flash",
+    "era": "New 52",
+    "bookswagon_url": "https://www.bookswagon.com/book/flash-omnibus-brian-buccellato-francis/9781401261030",
+    "amazon_url": "https://www.amazon.in/Flash-Francis-Manapul-Buccellato-Omnibus/dp/1401261035"
+  },
+  {
+    "id": "flash-williamson-omnibus-vol-1",
+    "name": "Flash by Joshua Williamson Omnibus Vol. 1",
+    "franchise": "Flash",
+    "era": "Rebirth",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779526984",
+    "amazon_url": "https://www.amazon.in/dp/1779526989"
+  },
+  {
+    "id": "flash-williamson-omnibus-vol-2",
+    "name": "Flash by Joshua Williamson Omnibus Vol. 2",
+    "franchise": "Flash",
+    "era": "Rebirth",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799502463",
+    "amazon_url": "https://www.amazon.in/dp/1799502465"
+  }
+]

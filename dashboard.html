@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DC Omnibus Tracker</title>
+    <link rel="stylesheet" href="dashboard.css?v=10" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <div class="glow"></div>
+    <div class="container">
+      <header class="header">
+        <div class="brand">
+          <div class="brand-mark">DC</div>
+          <div>
+            <h1>Omnibus Price Tracker</h1>
+            <p class="subtitle">Bookswagon vs Amazon India · the wishlist you don't own yet</p>
+          </div>
+        </div>
+        <div class="actions">
+          <span id="last-updated" class="muted"></span>
+          <button id="theme-btn" type="button" class="ghost">
+            <span id="theme-icon" aria-hidden="true">☀</span>
+            <span id="theme-label">Light</span>
+          </button>
+          <button id="refresh-btn" type="button">
+            <span class="refresh-icon" aria-hidden="true">↻</span> Refresh
+          </button>
+        </div>
+      </header>
+
+      <section id="stats-row" class="stats-row"></section>
+
+      <nav id="filters" class="filters" aria-label="Filter by franchise"></nav>
+
+      <section id="movers" class="movers hidden" aria-label="Today's price changes"></section>
+
+      <main id="content" class="content"></main>
+
+      <footer class="foot">
+        <div class="legend">
+          <span><i class="dot bookswagon"></i>Bookswagon</span>
+          <span><i class="dot amazon"></i>Amazon India</span>
+          <span><i class="dot best"></i>Best price</span>
+        </div>
+        <p class="muted small">Prices refresh daily · lowest price wins the Buy button</p>
+      </footer>
+    </div>
+
+    <script src="dashboard.js?v=10"></script>
+  </body>
+</html>
