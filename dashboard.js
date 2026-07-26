@@ -19,6 +19,8 @@ const DEFAULT_ACCENT = "#3b82f6";
 const MAX_PRICE = 15000;
 const availablePrice = (v) => (v != null && v <= MAX_PRICE ? v : null);
 
+const STORE_LABELS = { bookswagon: "Bookswagon", amazon: "Amazon", flipkart: "Flipkart" };
+
 const accentFor = (franchise) => FRANCHISE_ACCENTS[franchise] || DEFAULT_ACCENT;
 
 const updatedEl = document.getElementById("last-updated");
@@ -59,7 +61,11 @@ function allTimeLow(book) {
   historyData.forEach((snapshot) => {
     const item = snapshot.items.find((entry) => itemMatchesBook(entry, book));
     if (!item) return;
-    [["Bookswagon", item.price], ["Amazon", item.amazon_price]].forEach(([store, val]) => {
+    [
+      ["Bookswagon", item.price],
+      ["Amazon", item.amazon_price],
+      ["Flipkart", item.flipkart_price],
+    ].forEach(([store, val]) => {
       if (val == null || val > MAX_PRICE) return;
       if (low == null || val < low.price) low = { price: val, date: snapshot.date, store };
     });
@@ -76,14 +82,16 @@ function buildSeries(book) {
   const dates = [];
   const bookswagon = [];
   const amazon = [];
+  const flipkart = [];
   historyData.forEach((snapshot) => {
     const item = snapshot.items.find((entry) => itemMatchesBook(entry, book));
     if (!item) return;
     dates.push(snapshot.date);
     bookswagon.push(availablePrice(item.price));
     amazon.push(availablePrice(item.amazon_price));
+    flipkart.push(availablePrice(item.flipkart_price));
   });
-  return { dates, bookswagon, amazon };
+  return { dates, bookswagon, amazon, flipkart };
 }
 
 function latestItem(book) {
@@ -100,24 +108,34 @@ function priceInfo(book) {
   const bookswagonRaw =
     item && item.price != null && item.in_stock !== false ? item.price : null;
   const amazonRaw = item && item.amazon_price != null ? item.amazon_price : null;
+  const flipkartRaw = item && item.flipkart_price != null ? item.flipkart_price : null;
   const bookswagon = availablePrice(bookswagonRaw);
   const amazon = availablePrice(amazonRaw);
+  const flipkart = availablePrice(flipkartRaw);
   // A store whose listing exists but is priced above the cap: mark it "not available".
   const bookswagonOver = bookswagonRaw != null && bookswagon == null;
   const amazonOver = amazonRaw != null && amazon == null;
+  const flipkartOver = flipkartRaw != null && flipkart == null;
 
-  let best = null; // "bookswagon" | "amazon"
-  if (bookswagon != null && amazon != null) best = bookswagon <= amazon ? "bookswagon" : "amazon";
-  else if (bookswagon != null) best = "bookswagon";
-  else if (amazon != null) best = "amazon";
+  // Cheapest available store wins; savings = gap to the next-cheapest store.
+  const stores = [
+    { key: "bookswagon", price: bookswagon, link: book.bookswagon_url },
+    { key: "amazon", price: amazon, link: book.amazon_url },
+    { key: "flipkart", price: flipkart, link: book.flipkart_url },
+  ].filter((s) => s.price != null);
+  stores.sort((a, b) => a.price - b.price);
 
-  const bestPrice = best === "bookswagon" ? bookswagon : best === "amazon" ? amazon : null;
-  const bestLink =
-    best === "bookswagon" ? book.bookswagon_url : best === "amazon" ? book.amazon_url : null;
-  const savings =
-    bookswagon != null && amazon != null ? Math.abs(bookswagon - amazon) : 0;
+  const best = stores.length ? stores[0].key : null;
+  const bestPrice = stores.length ? stores[0].price : null;
+  const bestLink = stores.length ? stores[0].link : null;
+  const savings = stores.length >= 2 ? stores[1].price - stores[0].price : 0;
 
-  return { bookswagon, amazon, bookswagonOver, amazonOver, best, bestPrice, bestLink, savings, tracked: Boolean(book.bookswagon_url || book.amazon_url) };
+  return {
+    bookswagon, amazon, flipkart,
+    bookswagonOver, amazonOver, flipkartOver,
+    best, bestPrice, bestLink, savings,
+    tracked: Boolean(book.bookswagon_url || book.amazon_url || book.flipkart_url),
+  };
 }
 
 /* ---------------- Today's movers ---------------- */
@@ -137,6 +155,7 @@ function computeMovers() {
     [
       ["Bookswagon", "price", book.bookswagon_url],
       ["Amazon", "amazon_price", book.amazon_url],
+      ["Flipkart", "flipkart_price", book.flipkart_url],
     ].forEach(([store, field, href]) => {
       let a = pi[field];
       let b = ci[field];
@@ -301,12 +320,12 @@ function renderCard(book, accent) {
   }
 
   const savingsText =
-    info.savings > 0 && info.bookswagon != null && info.amazon != null
+    info.savings > 0
       ? `<span class="savings">Save ${formatCurrency(info.savings)}</span>`
       : `<span class="savings none">—</span>`;
 
   const buy = info.bestLink
-    ? `<a class="buy-btn" href="${info.bestLink}" target="_blank" rel="noopener noreferrer">Buy on ${info.best === "bookswagon" ? "Bookswagon" : "Amazon"}</a>`
+    ? `<a class="buy-btn" href="${info.bestLink}" target="_blank" rel="noopener noreferrer">Buy on ${STORE_LABELS[info.best]}</a>`
     : "";
 
   const low = allTimeLow(book);
@@ -324,6 +343,7 @@ function renderCard(book, accent) {
     <div class="price-rows">
       ${priceRow("Bookswagon", info.bookswagon, "bookswagon", info.best === "bookswagon", book.bookswagon_url, info.bookswagonOver)}
       ${priceRow("Amazon", info.amazon, "amazon", info.best === "amazon", book.amazon_url, info.amazonOver)}
+      ${book.flipkart_url ? priceRow("Flipkart", info.flipkart, "flipkart", info.best === "flipkart", book.flipkart_url, info.flipkartOver) : ""}
     </div>
     ${lowHtml}
     <div class="card-foot">${savingsText}${buy}</div>
@@ -332,7 +352,10 @@ function renderCard(book, accent) {
 
   // Only draw a sparkline when there is history worth showing.
   const series = buildSeries(book);
-  const points = series.bookswagon.concat(series.amazon).filter((v) => v != null);
+  const points = series.bookswagon
+    .concat(series.amazon)
+    .concat(series.flipkart)
+    .filter((v) => v != null);
   if (points.length >= 2) {
     const canvas = card.querySelector("canvas");
     const chart = makeSpark(canvas, series, low ? low.price : null);
@@ -369,6 +392,20 @@ function makeSpark(canvas, series, lowValue) {
       pointRadius: 0,
       pointHoverRadius: 4,
       pointHoverBackgroundColor: "#f59e0b",
+      pointHoverBorderColor: "#0a0b12",
+      fill: false,
+      spanGaps: true,
+    },
+    {
+      label: "Flipkart",
+      data: series.flipkart,
+      borderColor: "#a855f7",
+      backgroundColor: "rgba(168,85,247,0.10)",
+      borderWidth: 2,
+      tension: 0.3,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointHoverBackgroundColor: "#a855f7",
       pointHoverBorderColor: "#0a0b12",
       fill: false,
       spanGaps: true,

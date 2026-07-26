@@ -220,6 +220,8 @@ __marimo__/
 # Project-specific
 .DS_Store
 .claude/
+# Local auto-refresh + macOS notification helper (not part of the project)
+auto-refresh/
 # Saved Amazon page fixtures — large and contain stale anonymous session tokens
 amazon_sample.html
 amazon_sample_2.html

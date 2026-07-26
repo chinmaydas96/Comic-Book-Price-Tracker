@@ -6,6 +6,7 @@
     "era": "Era 1: Early Post-Crisis (1986–1993)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781401284268",
     "amazon_url": "https://www.amazon.in/dp/1401284264",
+    "flipkart_url": "https://www.flipkart.com/batman-jeph-loeb-tim-sale-omnibus/p/itmf3kf8fqxfefgz",
     "manual_low": { "price": 5934, "date": "2026-03-29", "store": "Amazon" }
   },
   {
@@ -31,6 +32,7 @@
     "era": "Era 2: Knightfall Era (1993–1999)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779506610",
     "amazon_url": "https://www.amazon.in/dp/1779506619",
+    "flipkart_url": "https://www.flipkart.com/batman-road-no-man-s-land-omnibus/p/itmbdfed942369d5",
     "manual_low": { "price": 6087, "date": "2025-07-14", "store": "Amazon" }
   },
   {
@@ -50,28 +52,13 @@
     "amazon_url": "https://www.amazon.in/dp/1779528035"
   },
   {
-    "id": "batman-gotham-central-omnibus",
-    "name": "Gotham Central Omnibus (optional companion)",
-    "franchise": "Batman",
-    "era": "Era 3: Gotham Rebuilding (2000–2005)",
-    "bookswagon_url": "https://www.bookswagon.com/book/gotham-central-omnibus-2022-edition/9781779515636",
-    "amazon_url": "https://www.amazon.in/gp/product/1779515634/"
-  },
-  {
-    "id": "batman-under-the-red-hood",
-    "name": "Under the Red Hood",
-    "franchise": "Batman",
-    "era": "Era 3: Gotham Rebuilding (2000–2005)",
-    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779523143",
-    "amazon_url": "https://www.amazon.in/dp/1779523149"
-  },
-  {
     "id": "batman-war-games-omnibus",
     "name": "Batman: War Games Omnibus",
     "franchise": "Batman",
     "era": "Era 3: Gotham Rebuilding (2000–2005)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781799502142",
-    "amazon_url": "https://www.amazon.in/dp/1799502147"
+    "amazon_url": "https://www.amazon.in/dp/1799502147",
+    "flipkart_url": "https://www.flipkart.com/batman-war-games-omnibus/p/itm7d4130498d4b5"
   },
   {
     "id": "batman-snyder-omnibus-vol-2",
@@ -79,7 +66,8 @@
     "franchise": "Batman",
     "era": "Era 5: New 52 (2011–2016)",
     "bookswagon_url": "https://www.bookswagon.com/book/batman-by-scott-snyder-greg-capullo/9781779513267",
-    "amazon_url": "https://www.amazon.in/Batman-Scott-Snyder-Capullo-Omnibus/dp/1779513267"
+    "amazon_url": "https://www.amazon.in/Batman-Scott-Snyder-Capullo-Omnibus/dp/1779513267",
+    "flipkart_url": "https://www.flipkart.com/batman-scott-snyder-greg-capullo-omnibus-vol-2/p/itm543211e0daabe"
   },
   {
     "id": "batman-and-robin-tomasi-omnibus",
@@ -87,7 +75,8 @@
     "franchise": "Batman",
     "era": "Era 5: New 52 (2011–2016)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779517043",
-    "amazon_url": "https://www.amazon.in/dp/1779517041"
+    "amazon_url": "https://www.amazon.in/dp/1779517041",
+    "flipkart_url": "https://www.flipkart.com/batman-robin-peter-tomasi-patrick-gleason-omnibus/p/itmfycsyqgtrxg2j"
   },
   {
     "id": "batman-detective-comics-new52-omnibus",
@@ -95,7 +84,8 @@
     "franchise": "Batman",
     "era": "Era 5: New 52 (2011–2016)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781799501947",
-    "amazon_url": "https://www.amazon.in/dp/1799501949"
+    "amazon_url": "https://www.amazon.in/dp/1799501949",
+    "flipkart_url": "https://www.flipkart.com/batman-detective-comics-new-52-omnibus-vol-1/p/itm7b5568d3063a5"
   },
   {
     "id": "batman-detective-comics-new52-omnibus-vol-2",
@@ -151,7 +141,8 @@
     "franchise": "Justice League",
     "era": "Justice League International (1987–1996)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781401273866",
-    "amazon_url": "https://www.amazon.in/dp/1401273866"
+    "amazon_url": "https://www.amazon.in/dp/1401273866",
+    "flipkart_url": "https://www.flipkart.com/justice-league-international-omnibus-vol-1/p/itmfycrzugrwsv2e"
   },
   {
     "id": "jl-jli-omnibus-vol-2",
@@ -175,7 +166,8 @@
     "franchise": "Justice League",
     "era": "Era 1: Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779504999",
-    "amazon_url": "https://www.amazon.in/dp/1779504993"
+    "amazon_url": "https://www.amazon.in/dp/1779504993",
+    "flipkart_url": "https://www.flipkart.com/jla-grant-morrison-omnibus/p/itm2cb2d9e5cad35"
   },
   {
     "id": "jl-jla-mark-waid-omnibus",
@@ -207,7 +199,8 @@
     "franchise": "Justice League",
     "era": "Justice League Dark (New 52)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513137",
-    "amazon_url": "https://www.amazon.in/dp/1779513135"
+    "amazon_url": "https://www.amazon.in/dp/1779513135",
+    "flipkart_url": "https://www.flipkart.com/justice-league-dark-new-52-omnibus/p/itme839bbba9f8a0"
   },
   {
     "id": "crisis-zero-hour",
@@ -215,7 +208,8 @@
     "franchise": "Crisis / Universe Events",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779526304",
-    "amazon_url": "https://www.amazon.in/dp/177952630X"
+    "amazon_url": "https://www.amazon.in/dp/177952630X",
+    "flipkart_url": "https://www.flipkart.com/zero-hour-crisis-time-omnibus-2023/p/itm52e27dacffadf"
   },
   {
     "id": "crisis-infinite-crisis-omnibus",
@@ -223,7 +217,8 @@
     "franchise": "Crisis / Universe Events",
     "era": "Infinite Crisis Era",
     "bookswagon_url": "https://www.bookswagon.com/book/infinite-crisis-omnibus-jiminez-phil/9781779503442",
-    "amazon_url": "https://www.amazon.in/gp/product/177950344X/"
+    "amazon_url": "https://www.amazon.in/gp/product/177950344X/",
+    "flipkart_url": "https://www.flipkart.com/infinite-crisis-omnibus-2020/p/itm9d5b5286a514e"
   },
   {
     "id": "crisis-52-omnibus",
@@ -232,6 +227,7 @@
     "era": "Infinite Crisis Era",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779515438",
     "amazon_url": "https://www.amazon.in/dp/177951543X",
+    "flipkart_url": "https://www.flipkart.com/52-omnibus/p/itm4486bda99c189",
     "manual_low": { "price": 7214, "date": "2026-06-29", "store": "Amazon" }
   },
   {
@@ -240,7 +236,8 @@
     "franchise": "Crisis / Universe Events",
     "era": "Final Crisis Era",
     "bookswagon_url": "https://www.bookswagon.com/book/final-crisis-omnibus-new-printing/9781779501400",
-    "amazon_url": "https://www.amazon.in/gp/product/1779501404/"
+    "amazon_url": "https://www.amazon.in/gp/product/1779501404/",
+    "flipkart_url": "https://www.flipkart.com/final-crisis-omnibus/p/itm9c4bc1f7a0ad3"
   },
   {
     "id": "crisis-blackest-night-omnibus",
@@ -248,7 +245,8 @@
     "franchise": "Crisis / Universe Events",
     "era": "Lantern Era",
     "bookswagon_url": "https://www.bookswagon.com/book/blackest-night-omnibus-10th-anniversary/9781401291198",
-    "amazon_url": "https://www.amazon.in/Blackest-Night-Omnibus-10th-Anniversary/dp/1401291198"
+    "amazon_url": "https://www.amazon.in/Blackest-Night-Omnibus-10th-Anniversary/dp/1401291198",
+    "flipkart_url": "https://www.flipkart.com/blackest-night-omnibus-10th-anniversary/p/itmfe7zguyyf3zkj"
   },
   {
     "id": "crisis-brightest-day-omnibus",
@@ -256,7 +254,8 @@
     "franchise": "Crisis / Universe Events",
     "era": "Lantern Era",
     "bookswagon_url": "https://www.bookswagon.com/book/brightest-day-omnibus-2022-edition/9781779516336",
-    "amazon_url": "https://www.amazon.in/gp/product/1779516339/"
+    "amazon_url": "https://www.amazon.in/gp/product/1779516339/",
+    "flipkart_url": "https://www.flipkart.com/brightest-day-omnibus/p/itm9781401245979"
   },
   {
     "id": "crisis-dark-nights-metal-omnibus",
@@ -264,7 +263,8 @@
     "franchise": "Crisis / Universe Events",
     "era": "Rebirth / Metal Era",
     "bookswagon_url": "https://www.bookswagon.com/book/dark-nights-greg-capullo-scott/9781779517036",
-    "amazon_url": "https://www.amazon.in/gp/product/1779517033/"
+    "amazon_url": "https://www.amazon.in/gp/product/1779517033/",
+    "flipkart_url": "https://www.flipkart.com/dark-nights-metal-omnibus/p/itm1920c5e9aa116"
   },
   {
     "id": "crisis-dark-nights-death-metal-omnibus",
@@ -273,7 +273,24 @@
     "era": "Rebirth / Metal Era",
     "bookswagon_url": "https://www.bookswagon.com/book/dark-nights-xermanico-greg-capullo/9781779523075",
     "amazon_url": "https://www.amazon.in/gp/product/1779523076/",
+    "flipkart_url": "https://www.flipkart.com/dark-nights-death-metal-omnibus/p/itm36e188f6d5b63",
     "manual_low": { "price": 5390, "date": "2025-10-21", "store": "Amazon", "source": "Keepa" }
+  },
+  {
+    "id": "gl-corps-tomasi-gleason-omnibus-vol-1",
+    "name": "Green Lantern Corps by Peter J. Tomasi and Patrick Gleason Omnibus Vol. 1",
+    "franchise": "Green Lantern",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779522917",
+    "amazon_url": "https://www.amazon.in/dp/1779522916"
+  },
+  {
+    "id": "gl-corps-tomasi-gleason-omnibus-vol-2",
+    "name": "Green Lantern Corps by Peter J. Tomasi and Patrick Gleason Omnibus Vol. 2",
+    "franchise": "Green Lantern",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779527523",
+    "amazon_url": "https://www.amazon.in/dp/1779527527"
   },
   {
     "id": "gl-geoff-johns-omnibus-vol-3",
@@ -281,7 +298,8 @@
     "franchise": "Green Lantern",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/green-lantern-omnibus-volume-3/9781401258207",
-    "amazon_url": "https://www.amazon.in/gp/product/1401258204/"
+    "amazon_url": "https://www.amazon.in/gp/product/1401258204/",
+    "flipkart_url": "https://www.flipkart.com/green-lantern-geoff-johns-omnibus-vol-3/p/itmb4e3e10596daa"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-1",
@@ -289,7 +307,8 @@
     "franchise": "Superman",
     "era": "Post-Crisis Reboot (1986–1988)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779504913",
-    "amazon_url": "https://www.amazon.in/dp/1779504918"
+    "amazon_url": "https://www.amazon.in/dp/1779504918",
+    "flipkart_url": "https://www.flipkart.com/superman-man-steel-volume-1/p/itmed7619b10bce9"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-2",
@@ -305,7 +324,8 @@
     "franchise": "Superman",
     "era": "Post-Crisis Reboot (1986–1988)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779509666",
-    "amazon_url": "https://www.amazon.in/dp/1779509669"
+    "amazon_url": "https://www.amazon.in/dp/1779509669",
+    "flipkart_url": "https://www.flipkart.com/superman-man-steel-vol-3/p/itma8faf381f311b"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-4",
@@ -313,7 +333,8 @@
     "franchise": "Superman",
     "era": "Post-Crisis Reboot (1986–1988)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513212",
-    "amazon_url": "https://www.amazon.in/dp/1779513216"
+    "amazon_url": "https://www.amazon.in/dp/1779513216",
+    "flipkart_url": "https://www.flipkart.com/superman-man-steel-vol-4/p/itma99fbe3b3ab95"
   },
   {
     "id": "superman-exile-omnibus",
@@ -321,7 +342,8 @@
     "franchise": "Superman",
     "era": "Exile (1988–1989)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779529527",
-    "amazon_url": "https://www.amazon.in/dp/177952952X"
+    "amazon_url": "https://www.amazon.in/dp/177952952X",
+    "flipkart_url": "https://www.flipkart.com/superman-exile-other-stories-omnibus/p/itmfycsyfffexq3x"
   },
   {
     "id": "superman-brainiac-reborn-omnibus",
@@ -385,7 +407,8 @@
     "franchise": "Superman",
     "era": "Rebirth (2016–2018)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779509253",
-    "amazon_url": "https://www.amazon.in/dp/1779509251"
+    "amazon_url": "https://www.amazon.in/dp/1779509251",
+    "flipkart_url": "https://www.flipkart.com/superman-peter-j-tomasi-patrick-gleason-omnibus/p/itme96c02865f8bc"
   },
   {
     "id": "superman-action-comics-jurgens-omnibus-vol-1",
@@ -404,12 +427,30 @@
     "amazon_url": "https://www.amazon.in/dp/1799508536"
   },
   {
+    "id": "superman-batman-omnibus-vol-1",
+    "name": "Superman/Batman Omnibus Vol. 1",
+    "franchise": "Superman",
+    "era": "Superman/Batman (2003–2011)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779500298",
+    "amazon_url": "https://www.amazon.in/dp/1779500297",
+    "flipkart_url": "https://www.flipkart.com/superman-batman-omnibus-volume-1/p/itm46be66049a7de"
+  },
+  {
+    "id": "superman-batman-omnibus-vol-2",
+    "name": "Superman/Batman Omnibus Vol. 2",
+    "franchise": "Superman",
+    "era": "Superman/Batman (2003–2011)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779510235",
+    "amazon_url": "https://www.amazon.in/dp/1779510233"
+  },
+  {
     "id": "flash-mark-waid-omnibus-vol-1",
     "name": "Flash by Mark Waid Omnibus Vol. 1",
     "franchise": "Flash",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513632",
-    "amazon_url": "https://www.amazon.in/dp/1779513631"
+    "amazon_url": "https://www.amazon.in/dp/1779513631",
+    "flipkart_url": "https://www.flipkart.com/flash-mark-waid-omnibus-vol-1/p/itm3efa6c7d2dc3e"
   },
   {
     "id": "flash-mark-waid-omnibus-vol-2",
@@ -441,7 +482,8 @@
     "franchise": "Flash",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781401295325",
-    "amazon_url": "https://www.amazon.in/dp/1401295320"
+    "amazon_url": "https://www.amazon.in/dp/1401295320",
+    "flipkart_url": "https://www.flipkart.com/flash-geoff-johns-omnibus-vol-1/p/itm1ecb438dc87b8"
   },
   {
     "id": "flash-geoff-johns-omnibus-vol-2",
@@ -449,7 +491,8 @@
     "franchise": "Flash",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779507501",
-    "amazon_url": "https://www.amazon.in/dp/177950750X"
+    "amazon_url": "https://www.amazon.in/dp/177950750X",
+    "flipkart_url": "https://www.flipkart.com/flash-geoff-johns-omnibus-volume-2/p/itm7d3dcfb115eb3"
   },
   {
     "id": "flash-geoff-johns-omnibus-vol-3",
@@ -457,7 +500,8 @@
     "franchise": "Flash",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779513458",
-    "amazon_url": "https://www.amazon.in/dp/1779513453"
+    "amazon_url": "https://www.amazon.in/dp/1779513453",
+    "flipkart_url": "https://www.flipkart.com/flash-geoff-johns-omnibus-vol-3/p/itm763b1cda57699"
   },
   {
     "id": "flash-manapul-buccellato-omnibus",
@@ -465,7 +509,16 @@
     "franchise": "Flash",
     "era": "New 52",
     "bookswagon_url": "https://www.bookswagon.com/book/flash-omnibus-brian-buccellato-francis/9781401261030",
-    "amazon_url": "https://www.amazon.in/Flash-Francis-Manapul-Buccellato-Omnibus/dp/1401261035"
+    "amazon_url": "https://www.amazon.in/Flash-Francis-Manapul-Buccellato-Omnibus/dp/1401261035",
+    "flipkart_url": "https://www.flipkart.com/flash-francis-manapul-brian-buccellato-omnibus/p/itm345f1ac298d82"
+  },
+  {
+    "id": "flash-road-to-rebirth-omnibus",
+    "name": "The Flash: The Road to Rebirth Omnibus",
+    "franchise": "Flash",
+    "era": "New 52",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799507833",
+    "amazon_url": "https://www.amazon.in/dp/1799507831"
   },
   {
     "id": "flash-williamson-omnibus-vol-1",
@@ -473,7 +526,8 @@
     "franchise": "Flash",
     "era": "Rebirth",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779526984",
-    "amazon_url": "https://www.amazon.in/dp/1779526989"
+    "amazon_url": "https://www.amazon.in/dp/1779526989",
+    "flipkart_url": "https://www.flipkart.com/flash-joshua-williamson-omnibus-vol-1/p/itmd945e7fce6091"
   },
   {
     "id": "flash-williamson-omnibus-vol-2",
@@ -482,5 +536,13 @@
     "era": "Rebirth",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781799502463",
     "amazon_url": "https://www.amazon.in/dp/1799502465"
+  },
+  {
+    "id": "flash-williamson-omnibus-vol-3",
+    "name": "The Flash by Joshua Williamson Omnibus Vol. 3",
+    "franchise": "Flash",
+    "era": "Rebirth",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508540",
+    "amazon_url": "https://www.amazon.in/dp/1799508544"
   }
 ]

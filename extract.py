@@ -2,6 +2,8 @@ import json
 import os
 import re
 import sys
+import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from urllib.request import Request, urlopen
 
@@ -29,20 +31,49 @@ def fetch_html(url):
         return response.read().decode("utf-8", errors="ignore")
 
 
-def fetch_amazon_html(url):
-    req = Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0",
-            "Accept-Language": "en-IN,en;q=0.9",
-            "Accept-Encoding": "identity",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "DNT": "1",
-            "Upgrade-Insecure-Requests": "1",
-        },
-    )
-    with urlopen(req, timeout=20) as response:
-        return response.read().decode("utf-8", errors="ignore")
+AMAZON_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-IN,en;q=0.9",
+    "Accept-Encoding": "identity",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "DNT": "1",
+}
+
+
+def looks_blocked(html):
+    """True if Amazon returned a bot/CAPTCHA page instead of the product page."""
+    if len(html) < 6000:
+        return True
+    lowered = html.lower()
+    return "captcha" in lowered or "api-services-support@amazon" in lowered
+
+
+def fetch_amazon_html(url, attempts=3):
+    """Fetch an Amazon page, retrying past intermittent bot-block responses."""
+    html = ""
+    for attempt in range(attempts):
+        req = Request(url, headers=AMAZON_HEADERS)
+        try:
+            with urlopen(req, timeout=20) as response:
+                html = response.read().decode("utf-8", errors="ignore")
+        except Exception:
+            html = ""
+        if html and not looks_blocked(html):
+            return html
+        if attempt < attempts - 1:
+            time.sleep(1.5 * (attempt + 1))
+    return html
 
 
 def extract_book_name(html):
@@ -217,54 +248,145 @@ def fetch_amazon_price(url):
     return normalize_price(extract_amazon_price(html))
 
 
-def collect_items(snapshot_date, books=None):
+FLIPKART_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-IN,en;q=0.9",
+    "Accept-Encoding": "identity",
+}
+
+
+def extract_flipkart_price(html):
+    """Main product's standard selling price (the "fsp" in Flipkart's "ppd" block).
+    Returns None when out of stock. Flipkart keeps showing an "fsp" price even on
+    sold-out listings (with a "Notify Me" button), so we also require the buybox
+    availability flag to be true; otherwise the price is not actually buyable."""
+    match = re.search(r'"ppd":\s*\{[^}]*?"fsp":(?P<price>\d{2,7})', html)
+    if not match:
+        return None
+    avail = re.search(r'"available":(true|false),"isPreBook"', html)
+    if avail and avail.group(1) == "false":
+        return None
+    return float(match.group("price"))
+
+
+def fetch_flipkart_price(url, attempts=3):
+    for attempt in range(attempts):
+        try:
+            req = Request(url, headers=FLIPKART_HEADERS)
+            with urlopen(req, timeout=25) as response:
+                html = response.read().decode("utf-8", errors="ignore")
+        except Exception:
+            html = ""
+        price = extract_flipkart_price(html)
+        if price is not None:
+            return price
+        if attempt < attempts - 1:
+            time.sleep(1.5 * (attempt + 1))
+    return None
+
+
+def load_last_known(history_path="history.json"):
+    """Most recent non-null Amazon and Flipkart price per book, scanning history
+    newest-first. Used to carry a price forward when a scrape is blocked, so a
+    transient bot-block doesn't wipe an otherwise-known price."""
+    try:
+        with open(history_path, "r", encoding="utf-8") as handle:
+            history = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+    known = {}
+    for snapshot in reversed(history):
+        for item in snapshot.get("items", []):
+            key = item.get("id") or item.get("url")
+            if not key:
+                continue
+            entry = known.setdefault(key, {})
+            if "amazon_price" not in entry and item.get("amazon_price") is not None:
+                entry["amazon_price"] = item["amazon_price"]
+            if "flipkart_price" not in entry and item.get("flipkart_price") is not None:
+                entry["flipkart_price"] = item["flipkart_price"]
+    return known
+
+
+def scrape_book(book, snapshot_date, last_known):
+    """Scrape one book's price across all three stores. Runs in a worker thread."""
+    url = book.get("bookswagon_url")
+    amazon_url = book.get("amazon_url")
+    flipkart_url = book.get("flipkart_url")
+    key = book.get("id") or url
+
+    # Scrape Bookswagon price (skip if no link yet).
+    name = book.get("name")
+    price_value = None
+    in_stock = None
+    if url:
+        try:
+            html = fetch_html(url)
+            scraped_name = extract_book_name(html)
+            if scraped_name:
+                name = scraped_name
+            price, _currency, in_stock = extract_price_and_stock(html)
+            price_value = normalize_price(price)
+        except Exception:
+            price_value = None
+            in_stock = None
+
+    # Scrape Amazon India price (skip if no link yet).
+    amazon_price = None
+    if amazon_url:
+        try:
+            amazon_price = fetch_amazon_price(amazon_url)
+        except Exception:
+            amazon_price = None
+        # Amazon intermittently serves a bot page; if this run couldn't get a
+        # price, keep the last known one instead of blanking it out.
+        if amazon_price is None:
+            fallback = last_known.get(key, {}).get("amazon_price")
+            if fallback is not None:
+                amazon_price = fallback
+
+    # Scrape Flipkart price (skip if no link yet). A missing price here means
+    # out of stock (the page still loads), so it's left as None, not carried
+    # forward — otherwise an out-of-stock book would show a stale price.
+    flipkart_price = None
+    if flipkart_url:
+        try:
+            flipkart_price = fetch_flipkart_price(flipkart_url)
+        except Exception:
+            flipkart_price = None
+
+    return {
+        "id": book.get("id"),
+        "name": name,
+        "franchise": book.get("franchise"),
+        "era": book.get("era"),
+        "url": url,
+        "price": price_value,
+        "in_stock": in_stock,
+        "amazon_url": amazon_url,
+        "amazon_price": amazon_price,
+        "flipkart_url": flipkart_url,
+        "flipkart_price": flipkart_price,
+        "snapshot_date": snapshot_date,
+    }
+
+
+def collect_items(snapshot_date, books=None, max_workers=8):
     if books is None:
         books = load_books()
 
-    items = []
-    for book in books:
-        url = book.get("bookswagon_url")
-        amazon_url = book.get("amazon_url")
-
-        # Scrape Bookswagon price (skip if no link yet).
-        name = book.get("name")
-        price_value = None
-        in_stock = None
-        if url:
-            try:
-                html = fetch_html(url)
-                scraped_name = extract_book_name(html)
-                if scraped_name:
-                    name = scraped_name
-                price, _currency, in_stock = extract_price_and_stock(html)
-                price_value = normalize_price(price)
-            except Exception:
-                price_value = None
-                in_stock = None
-
-        # Scrape Amazon India price (skip if no link yet).
-        amazon_price = None
-        if amazon_url:
-            try:
-                amazon_price = fetch_amazon_price(amazon_url)
-            except Exception:
-                amazon_price = None
-
-        items.append(
-            {
-                "id": book.get("id"),
-                "name": name,
-                "franchise": book.get("franchise"),
-                "era": book.get("era"),
-                "url": url,
-                "price": price_value,
-                "in_stock": in_stock,
-                "amazon_url": amazon_url,
-                "amazon_price": amazon_price,
-                "snapshot_date": snapshot_date,
-            }
+    last_known = load_last_known()
+    # Scrape books concurrently; each book still hits its stores sequentially,
+    # but many books run in parallel. ThreadPoolExecutor.map preserves order.
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        items = list(
+            executor.map(lambda b: scrape_book(b, snapshot_date, last_known), books)
         )
-
     return items
 
 

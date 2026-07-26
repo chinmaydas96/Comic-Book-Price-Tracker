@@ -9,6 +9,7 @@
   --accent: #3b82f6;
   --bookswagon: #38bdf8;
   --amazon: #f59e0b;
+  --flipkart: #a855f7;
   --best: #22c55e;
   --radius: 16px;
   --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
@@ -666,6 +667,9 @@ a.price-row.linked:hover .go {
 }
 .dot.amazon {
   background: var(--amazon);
+}
+.dot.flipkart {
+  background: var(--flipkart);
 }
 .dot.best {
   background: var(--best);
