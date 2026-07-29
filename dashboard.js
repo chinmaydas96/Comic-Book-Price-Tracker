@@ -10,6 +10,7 @@ const FRANCHISE_ACCENTS = {
   "Green Lantern": "#22c55e",
   "Superman": "#1d4ed8",
   "Flash": "#ef4444",
+  "Young Justice / Teen Titans": "#ec4899",
   "Justice League Dark": "#14b8a6",
 };
 const DEFAULT_ACCENT = "#3b82f6";

@@ -26,6 +26,14 @@
     "amazon_url": "https://www.amazon.in/dp/1401277616"
   },
   {
+    "id": "batman-versus-bane",
+    "name": "Batman: Batman Versus Bane",
+    "franchise": "Batman",
+    "era": "Era 2: Knightfall Era (1993–1999)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781401233778",
+    "amazon_url": "https://www.amazon.in/gp/product/1401233775"
+  },
+  {
     "id": "batman-road-to-no-mans-land",
     "name": "Road to No Man's Land Omnibus",
     "franchise": "Batman",
@@ -161,15 +169,6 @@
     "amazon_url": "https://www.amazon.in/dp/1779525648"
   },
   {
-    "id": "jl-jla-morrison-omnibus",
-    "name": "JLA by Grant Morrison Omnibus",
-    "franchise": "Justice League",
-    "era": "Era 1: Post-Crisis",
-    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779504999",
-    "amazon_url": "https://www.amazon.in/dp/1779504993",
-    "flipkart_url": "https://www.flipkart.com/jla-grant-morrison-omnibus/p/itm2cb2d9e5cad35"
-  },
-  {
     "id": "jl-jla-mark-waid-omnibus",
     "name": "JLA by Mark Waid Omnibus",
     "franchise": "Justice League",
@@ -300,6 +299,14 @@
     "bookswagon_url": "https://www.bookswagon.com/book/green-lantern-omnibus-volume-3/9781401258207",
     "amazon_url": "https://www.amazon.in/gp/product/1401258204/",
     "flipkart_url": "https://www.flipkart.com/green-lantern-geoff-johns-omnibus-vol-3/p/itmb4e3e10596daa"
+  },
+  {
+    "id": "gl-kyle-rayner-rising-compendium",
+    "name": "Green Lantern: Kyle Rayner Rising Compendium",
+    "franchise": "Green Lantern",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779526274",
+    "amazon_url": "https://www.amazon.in/dp/177952627X"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-1",
@@ -470,11 +477,11 @@
   },
   {
     "id": "flash-morrison-millar-omnibus",
-    "name": "Flash by Grant Morrison & Mark Millar Deluxe Edition",
+    "name": "The Flash by Grant Morrison and Mark Millar: The Deluxe Edition",
     "franchise": "Flash",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779525802",
-    "amazon_url": "https://www.amazon.in/dp/177952580X"
+    "amazon_url": "https://www.amazon.in/dp/179950042X"
   },
   {
     "id": "flash-geoff-johns-omnibus-vol-1",
@@ -544,5 +551,30 @@
     "era": "Rebirth",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508540",
     "amazon_url": "https://www.amazon.in/dp/1799508544"
+  },
+  {
+    "id": "young-justice-omnibus-vol-1",
+    "name": "Young Justice Omnibus Vol. 1",
+    "franchise": "Young Justice / Teen Titans",
+    "era": "Young Justice (1998–2003)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779526038",
+    "amazon_url": "https://www.amazon.in/dp/1779526032"
+  },
+  {
+    "id": "young-justice-omnibus-vol-2",
+    "name": "Young Justice Omnibus Vol. 2",
+    "franchise": "Young Justice / Teen Titans",
+    "era": "Young Justice (1998–2003)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799506270",
+    "amazon_url": "https://www.amazon.in/dp/1799506274"
+  },
+  {
+    "id": "teen-titans-geoff-johns-omnibus",
+    "name": "Teen Titans by Geoff Johns Omnibus",
+    "franchise": "Young Justice / Teen Titans",
+    "era": "Teen Titans (2003–2007)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779515452",
+    "amazon_url": "https://www.amazon.in/dp/1779515456",
+    "flipkart_url": "https://www.flipkart.com/teen-titans-geoff-johns-omnibus-2022/p/itm5b907d56f356c"
   }
 ]

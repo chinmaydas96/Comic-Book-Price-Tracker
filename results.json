@@ -8,10 +8,10 @@
     "price": 7168.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1401284264",
-    "amazon_price": 6579.02,
+    "amazon_price": 6999.0,
     "flipkart_url": "https://www.flipkart.com/batman-jeph-loeb-tim-sale-omnibus/p/itmf3kf8fqxfefgz",
     "flipkart_price": 6722.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-legacy-vol-1",
@@ -25,7 +25,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-legacy-vol-2",
@@ -39,7 +39,21 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
+  },
+  {
+    "id": "batman-versus-bane",
+    "name": "Batman Vs Bane TP: Batman Versus Bane(Batman)",
+    "franchise": "Batman",
+    "era": "Era 2: Knightfall Era (1993\u20131999)",
+    "url": "https://www.bookswagon.com/book/x/9781401233778",
+    "price": 595.0,
+    "in_stock": false,
+    "amazon_url": "https://www.amazon.in/gp/product/1401233775",
+    "amazon_price": 3121.2,
+    "flipkart_url": null,
+    "flipkart_price": null,
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-road-to-no-mans-land",
@@ -53,7 +67,7 @@
     "amazon_price": 8310.0,
     "flipkart_url": "https://www.flipkart.com/batman-road-no-man-s-land-omnibus/p/itmbdfed942369d5",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-no-mans-land-vol-2",
@@ -67,7 +81,7 @@
     "amazon_price": 7252.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-bruce-wayne-murderer-fugitive",
@@ -81,7 +95,7 @@
     "amazon_price": 8975.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-war-games-omnibus",
@@ -95,7 +109,7 @@
     "amazon_price": 8185.88,
     "flipkart_url": "https://www.flipkart.com/batman-war-games-omnibus/p/itm7d4130498d4b5",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-snyder-omnibus-vol-2",
@@ -109,7 +123,7 @@
     "amazon_price": 6809.0,
     "flipkart_url": "https://www.flipkart.com/batman-scott-snyder-greg-capullo-omnibus-vol-2/p/itm543211e0daabe",
     "flipkart_price": 6730.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-and-robin-tomasi-omnibus",
@@ -123,7 +137,7 @@
     "amazon_price": 8763.0,
     "flipkart_url": "https://www.flipkart.com/batman-robin-peter-tomasi-patrick-gleason-omnibus/p/itmfycsyqgtrxg2j",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-detective-comics-new52-omnibus",
@@ -137,7 +151,7 @@
     "amazon_price": 11133.0,
     "flipkart_url": "https://www.flipkart.com/batman-detective-comics-new-52-omnibus-vol-1/p/itm7b5568d3063a5",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-detective-comics-new52-omnibus-vol-2",
@@ -148,10 +162,10 @@
     "price": 9894.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1799508234",
-    "amazon_price": 10346.0,
+    "amazon_price": 10698.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-eternal-omnibus",
@@ -165,7 +179,7 @@
     "amazon_price": 9805.08,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-tom-king-omnibus-vol-1",
@@ -179,7 +193,7 @@
     "amazon_price": 9135.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-tom-king-omnibus-vol-2",
@@ -193,7 +207,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "batman-rise-and-fall-of-the-batmen",
@@ -207,7 +221,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jl-legends-omnibus",
@@ -221,7 +235,7 @@
     "amazon_price": 9421.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jl-jli-omnibus-vol-1",
@@ -235,7 +249,7 @@
     "amazon_price": 6608.0,
     "flipkart_url": "https://www.flipkart.com/justice-league-international-omnibus-vol-1/p/itmfycrzugrwsv2e",
     "flipkart_price": 6520.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jl-jli-omnibus-vol-2",
@@ -249,7 +263,7 @@
     "amazon_price": 9109.31,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jl-jli-omnibus-vol-3",
@@ -260,24 +274,10 @@
     "price": 10185.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1779525648",
-    "amazon_price": 13893.0,
+    "amazon_price": 10990.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
-  },
-  {
-    "id": "jl-jla-morrison-omnibus",
-    "name": "JLA by Grant Morrison Omnibus",
-    "franchise": "Justice League",
-    "era": "Era 1: Post-Crisis",
-    "url": "https://www.bookswagon.com/book/x/9781779504999",
-    "price": 10185.0,
-    "in_stock": true,
-    "amazon_url": "https://www.amazon.in/dp/1779504993",
-    "amazon_price": 11604.0,
-    "flipkart_url": "https://www.flipkart.com/jla-grant-morrison-omnibus/p/itm2cb2d9e5cad35",
-    "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jl-jla-mark-waid-omnibus",
@@ -291,7 +291,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jl-snyder-omnibus",
@@ -305,7 +305,7 @@
     "amazon_price": 10599.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jl-snyder-tynion-omnibus-vol-2",
@@ -319,7 +319,7 @@
     "amazon_price": 12516.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "jld-new52-omnibus",
@@ -333,7 +333,7 @@
     "amazon_price": 8153.0,
     "flipkart_url": "https://www.flipkart.com/justice-league-dark-new-52-omnibus/p/itme839bbba9f8a0",
     "flipkart_price": 8068.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-zero-hour",
@@ -344,10 +344,10 @@
     "price": 10280.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/177952630X",
-    "amazon_price": 8532.0,
+    "amazon_price": 9291.0,
     "flipkart_url": "https://www.flipkart.com/zero-hour-crisis-time-omnibus-2023/p/itm52e27dacffadf",
     "flipkart_price": 9404.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-infinite-crisis-omnibus",
@@ -361,7 +361,7 @@
     "amazon_price": 11045.0,
     "flipkart_url": "https://www.flipkart.com/infinite-crisis-omnibus-2020/p/itm9d5b5286a514e",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-52-omnibus",
@@ -375,7 +375,7 @@
     "amazon_price": 9574.0,
     "flipkart_url": "https://www.flipkart.com/52-omnibus/p/itm4486bda99c189",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-final-crisis-omnibus",
@@ -389,7 +389,7 @@
     "amazon_price": 7920.0,
     "flipkart_url": "https://www.flipkart.com/final-crisis-omnibus/p/itm9c4bc1f7a0ad3",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-blackest-night-omnibus",
@@ -403,7 +403,7 @@
     "amazon_price": 10358.0,
     "flipkart_url": "https://www.flipkart.com/blackest-night-omnibus-10th-anniversary/p/itmfe7zguyyf3zkj",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-brightest-day-omnibus",
@@ -417,7 +417,7 @@
     "amazon_price": null,
     "flipkart_url": "https://www.flipkart.com/brightest-day-omnibus/p/itm9781401245979",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-dark-nights-metal-omnibus",
@@ -431,7 +431,7 @@
     "amazon_price": null,
     "flipkart_url": "https://www.flipkart.com/dark-nights-metal-omnibus/p/itm1920c5e9aa116",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "crisis-dark-nights-death-metal-omnibus",
@@ -445,7 +445,7 @@
     "amazon_price": 7393.0,
     "flipkart_url": "https://www.flipkart.com/dark-nights-death-metal-omnibus/p/itm36e188f6d5b63",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "gl-corps-tomasi-gleason-omnibus-vol-1",
@@ -459,7 +459,7 @@
     "amazon_price": 9980.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "gl-corps-tomasi-gleason-omnibus-vol-2",
@@ -473,7 +473,7 @@
     "amazon_price": 10830.89,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "gl-geoff-johns-omnibus-vol-3",
@@ -487,7 +487,21 @@
     "amazon_price": 8574.0,
     "flipkart_url": "https://www.flipkart.com/green-lantern-geoff-johns-omnibus-vol-3/p/itmb4e3e10596daa",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
+  },
+  {
+    "id": "gl-kyle-rayner-rising-compendium",
+    "name": "Green Lantern: Kyle Rayner Rising Compendium",
+    "franchise": "Green Lantern",
+    "era": "Post-Crisis",
+    "url": "https://www.bookswagon.com/book/x/9781779526274",
+    "price": 4016.0,
+    "in_stock": true,
+    "amazon_url": "https://www.amazon.in/dp/177952627X",
+    "amazon_price": 4585.0,
+    "flipkart_url": null,
+    "flipkart_price": null,
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-1",
@@ -501,7 +515,7 @@
     "amazon_price": 2892.0,
     "flipkart_url": "https://www.flipkart.com/superman-man-steel-volume-1/p/itmed7619b10bce9",
     "flipkart_price": 2804.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-2",
@@ -515,7 +529,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-3",
@@ -529,7 +543,7 @@
     "amazon_price": null,
     "flipkart_url": "https://www.flipkart.com/superman-man-steel-vol-3/p/itma8faf381f311b",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-man-of-steel-byrne-vol-4",
@@ -543,7 +557,7 @@
     "amazon_price": 117000.0,
     "flipkart_url": "https://www.flipkart.com/superman-man-steel-vol-4/p/itma99fbe3b3ab95",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-exile-omnibus",
@@ -554,10 +568,10 @@
     "price": 8245.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/177952952X",
-    "amazon_price": 9428.0,
+    "amazon_price": 8963.0,
     "flipkart_url": "https://www.flipkart.com/superman-exile-other-stories-omnibus/p/itmfycsyfffexq3x",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-brainiac-reborn-omnibus",
@@ -568,10 +582,10 @@
     "price": 10040.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1799508226",
-    "amazon_price": 14437.0,
+    "amazon_price": 14592.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-triangle-era-omnibus-vol-1",
@@ -582,10 +596,10 @@
     "price": 7419.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1779528167",
-    "amazon_price": 8257.0,
+    "amazon_price": 8255.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-triangle-era-omnibus-vol-2",
@@ -599,7 +613,7 @@
     "amazon_price": 10970.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-triangle-era-omnibus-vol-3",
@@ -613,7 +627,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-last-son-deluxe",
@@ -627,7 +641,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-secret-origin-deluxe",
@@ -641,7 +655,7 @@
     "amazon_price": 14909.07,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-new-krypton-saga-omnibus-vol-1",
@@ -655,7 +669,7 @@
     "amazon_price": 11250.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-tomasi-gleason-omnibus",
@@ -669,7 +683,7 @@
     "amazon_price": 6409.0,
     "flipkart_url": "https://www.flipkart.com/superman-peter-j-tomasi-patrick-gleason-omnibus/p/itme96c02865f8bc",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-action-comics-jurgens-omnibus-vol-1",
@@ -680,10 +694,10 @@
     "price": 7382.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1799505111",
-    "amazon_price": 7099.0,
+    "amazon_price": 8942.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-action-comics-jurgens-omnibus-vol-2",
@@ -694,10 +708,10 @@
     "price": 6693.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1799508536",
-    "amazon_price": 9515.0,
+    "amazon_price": 7257.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-batman-omnibus-vol-1",
@@ -711,7 +725,7 @@
     "amazon_price": 8683.0,
     "flipkart_url": "https://www.flipkart.com/superman-batman-omnibus-volume-1/p/itm46be66049a7de",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "superman-batman-omnibus-vol-2",
@@ -725,7 +739,7 @@
     "amazon_price": null,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-mark-waid-omnibus-vol-1",
@@ -733,13 +747,13 @@
     "franchise": "Flash",
     "era": "Post-Crisis",
     "url": "https://www.bookswagon.com/book/x/9781779513632",
-    "price": 7778.0,
+    "price": 9894.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1779513631",
     "amazon_price": 7819.5,
     "flipkart_url": "https://www.flipkart.com/flash-mark-waid-omnibus-vol-1/p/itm3efa6c7d2dc3e",
-    "flipkart_price": 8135.0,
-    "snapshot_date": "2026-07-26"
+    "flipkart_price": null,
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-mark-waid-omnibus-vol-2",
@@ -747,13 +761,13 @@
     "franchise": "Flash",
     "era": "Post-Crisis",
     "url": "https://www.bookswagon.com/book/x/9781779528414",
-    "price": 7778.0,
+    "price": 10040.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1779528418",
     "amazon_price": 10965.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-mark-waid-omnibus-vol-3",
@@ -764,10 +778,10 @@
     "price": 10040.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1799507351",
-    "amazon_price": 9178.0,
+    "amazon_price": 9177.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-morrison-millar-omnibus",
@@ -777,11 +791,11 @@
     "url": "https://www.bookswagon.com/book/x/9781779525802",
     "price": 3108.0,
     "in_stock": false,
-    "amazon_url": "https://www.amazon.in/dp/177952580X",
-    "amazon_price": null,
+    "amazon_url": "https://www.amazon.in/dp/179950042X",
+    "amazon_price": 3984.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-geoff-johns-omnibus-vol-1",
@@ -792,10 +806,10 @@
     "price": 5733.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1401295320",
-    "amazon_price": 5324.0,
+    "amazon_price": 5733.0,
     "flipkart_url": "https://www.flipkart.com/flash-geoff-johns-omnibus-vol-1/p/itm1ecb438dc87b8",
     "flipkart_price": 6784.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-geoff-johns-omnibus-vol-2",
@@ -809,7 +823,7 @@
     "amazon_price": null,
     "flipkart_url": "https://www.flipkart.com/flash-geoff-johns-omnibus-volume-2/p/itm7d3dcfb115eb3",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-geoff-johns-omnibus-vol-3",
@@ -820,10 +834,10 @@
     "price": 5184.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1779513453",
-    "amazon_price": 5893.0,
+    "amazon_price": 5851.0,
     "flipkart_url": "https://www.flipkart.com/flash-geoff-johns-omnibus-vol-3/p/itm763b1cda57699",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-manapul-buccellato-omnibus",
@@ -837,7 +851,7 @@
     "amazon_price": 5553.0,
     "flipkart_url": "https://www.flipkart.com/flash-francis-manapul-brian-buccellato-omnibus/p/itm345f1ac298d82",
     "flipkart_price": 5465.0,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-road-to-rebirth-omnibus",
@@ -848,10 +862,10 @@
     "price": 8245.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1799507831",
-    "amazon_price": 9060.0,
+    "amazon_price": 10431.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-williamson-omnibus-vol-1",
@@ -865,7 +879,7 @@
     "amazon_price": 9800.0,
     "flipkart_url": "https://www.flipkart.com/flash-joshua-williamson-omnibus-vol-1/p/itmd945e7fce6091",
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-williamson-omnibus-vol-2",
@@ -876,10 +890,10 @@
     "price": 8366.0,
     "in_stock": true,
     "amazon_url": "https://www.amazon.in/dp/1799502465",
-    "amazon_price": 9461.0,
+    "amazon_price": 9042.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
   },
   {
     "id": "flash-williamson-omnibus-vol-3",
@@ -893,6 +907,48 @@
     "amazon_price": 11797.0,
     "flipkart_url": null,
     "flipkart_price": null,
-    "snapshot_date": "2026-07-26"
+    "snapshot_date": "2026-07-29"
+  },
+  {
+    "id": "young-justice-omnibus-vol-1",
+    "name": "Young Justice Omnibus Vol. 1",
+    "franchise": "Young Justice / Teen Titans",
+    "era": "Young Justice (1998\u20132003)",
+    "url": "https://www.bookswagon.com/book/x/9781779526038",
+    "price": 9588.0,
+    "in_stock": true,
+    "amazon_url": "https://www.amazon.in/dp/1779526032",
+    "amazon_price": 10727.0,
+    "flipkart_url": null,
+    "flipkart_price": null,
+    "snapshot_date": "2026-07-29"
+  },
+  {
+    "id": "young-justice-omnibus-vol-2",
+    "name": "Young Justice Omnibus Vol. 2",
+    "franchise": "Young Justice / Teen Titans",
+    "era": "Young Justice (1998\u20132003)",
+    "url": "https://www.bookswagon.com/book/x/9781799506270",
+    "price": 8973.0,
+    "in_stock": true,
+    "amazon_url": "https://www.amazon.in/dp/1799506274",
+    "amazon_price": 9423.0,
+    "flipkart_url": null,
+    "flipkart_price": null,
+    "snapshot_date": "2026-07-29"
+  },
+  {
+    "id": "teen-titans-geoff-johns-omnibus",
+    "name": "Teen Titans by Geoff Johns Omnibus: 2022 edition",
+    "franchise": "Young Justice / Teen Titans",
+    "era": "Teen Titans (2003\u20132007)",
+    "url": "https://www.bookswagon.com/book/x/9781779515452",
+    "price": 7650.0,
+    "in_stock": false,
+    "amazon_url": "https://www.amazon.in/dp/1779515456",
+    "amazon_price": 9973.0,
+    "flipkart_url": "https://www.flipkart.com/teen-titans-geoff-johns-omnibus-2022/p/itm5b907d56f356c",
+    "flipkart_price": null,
+    "snapshot_date": "2026-07-29"
   }
 ]
