@@ -39,15 +39,15 @@ def get_latest_mtime():
 def load_books():
     try:
         with open(BOOKS_PATH, "r", encoding="utf-8") as handle:
-            return json.load(handle)
+            return [book for book in json.load(handle) if not book.get("disabled", False)]
     except (FileNotFoundError, json.JSONDecodeError):
         return []
 
 
 def load_history():
-    """Return history filtered to titles that are still in the master list.
-    Anything removed from books.json disappears from the dashboard, including
-    its historical data points."""
+    """Return history filtered to active titles in the master list.
+    Anything removed or disabled in books.json disappears from the dashboard,
+    including its historical data points."""
     try:
         with open(HISTORY_PATH, "r", encoding="utf-8") as handle:
             history = json.load(handle)

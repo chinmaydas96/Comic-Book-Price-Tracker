@@ -21,6 +21,9 @@ dashboard.
 - **Today's movers** — a summary panel of price **drops** since the last snapshot.
 - **Franchise filter** — filter the whole dashboard by franchise, each with its own
   accent color.
+- **Hide Rebirth+ toggle** — exclude Rebirth and every later publishing era
+  (including Infinite Frontier and Dawn of DC), then recalculate the summary
+  metrics, franchise counts, and price-drop panel for the remaining set.
 - **"Not available" cap** — any price above ₹15,000 is treated as a placeholder /
   inflated listing and shown as *Not available* rather than a real buyable price.
 - **Light / dark theme** toggle.
@@ -124,6 +127,8 @@ Add an entry to `books.json`:
   `FRANCHISE_ACCENTS` in `dashboard.js` for a custom color.
 - Either store URL may be `null` (e.g. a pre-order not yet listed on one store) —
   that store simply shows no price.
+- Set `"disabled": true` to keep a book's configuration while excluding it from
+  scraping, dashboard results, and displayed history.
 - Optional `"manual_low": { "price": 5390, "date": "2025-10-21", "store": "Amazon" }`
   seeds a known historical low.
 

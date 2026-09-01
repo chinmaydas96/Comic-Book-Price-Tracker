@@ -2,6 +2,7 @@ import json
 import os
 import re
 import sys
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
@@ -10,25 +11,50 @@ from urllib.request import Request, urlopen
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BOOKS_PATH = os.path.join(BASE_DIR, "books.json")
 
+BOOKSWAGON_HEADERS = {
+    "User-Agent": "Mozilla/5.0",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "identity",
+}
+
+# BooksWagon becomes unreliable when a refresh opens all product pages at once.
+# Serialize and gently pace requests so the storefront does not throttle them.
+BOOKSWAGON_REQUEST_SLOTS = threading.BoundedSemaphore(1)
+BOOKSWAGON_REQUEST_GAP_SECONDS = 1.0
+_bookswagon_next_request_at = 0.0
+
 
 def load_books(books_path=BOOKS_PATH):
     """Load the master list. This is the single source of truth for which
-    titles get tracked; removing an entry here removes it from scraping,
-    the stored results, and (via the server filter) the dashboard."""
+    titles get tracked; entries marked disabled are skipped by scraping and
+    hidden from the dashboard without deleting their configuration."""
     with open(books_path, "r", encoding="utf-8") as handle:
-        return json.load(handle)
+        return [book for book in json.load(handle) if not book.get("disabled", False)]
 
-def fetch_html(url):
-    req = Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0",
-            "Accept-Language": "en-US,en;q=0.9",
-            "Accept-Encoding": "identity",
-        },
-    )
-    with urlopen(req, timeout=20) as response:
-        return response.read().decode("utf-8", errors="ignore")
+def fetch_html(url, attempts=2):
+    """Fetch a BooksWagon page with bounded concurrency and retries."""
+    global _bookswagon_next_request_at
+    for attempt in range(attempts):
+        req = Request(url, headers=BOOKSWAGON_HEADERS)
+        try:
+            with BOOKSWAGON_REQUEST_SLOTS:
+                wait_seconds = _bookswagon_next_request_at - time.monotonic()
+                if wait_seconds > 0:
+                    time.sleep(wait_seconds)
+                try:
+                    with urlopen(req, timeout=20) as response:
+                        html = response.read().decode("utf-8", errors="ignore")
+                finally:
+                    _bookswagon_next_request_at = (
+                        time.monotonic() + BOOKSWAGON_REQUEST_GAP_SECONDS
+                    )
+            if html:
+                return html
+        except Exception:
+            pass
+        if attempt < attempts - 1:
+            time.sleep(1.5 * (attempt + 1))
+    return ""
 
 
 AMAZON_HEADERS = {
@@ -133,6 +159,27 @@ def extract_amazon_price(html):
     )
     if price_to_pay_match:
         return f"₹{price_to_pay_match.group('amount')}"
+
+    # Amazon's mobile book page exposes third-party buying options as
+    # "Other New from ₹…" when there is no regular desktop buy box. The
+    # desktop URL is also more likely to return a bot-block page, so this is
+    # the live price picked up by fetch_amazon_price's mobile fallback.
+    mobile_new_offer_match = re.search(
+        r'aria-label="Other\s+New\s+from\s+(?P<price>₹\s?[\d,]+(?:\.\d{1,2})?)"',
+        html,
+        re.IGNORECASE,
+    )
+    if mobile_new_offer_match:
+        return mobile_new_offer_match.group("price").replace(" ", "")
+
+    mobile_format_price_match = re.search(
+        r'class="slot-price".*?aria-label="from\s+(?P<price>₹\s?[\d,]+(?:\.\d{1,2})?)"',
+        html,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if mobile_format_price_match:
+        return mobile_format_price_match.group("price").replace(" ", "")
+
     json_ld_price = extract_amazon_price_from_json_ld(html)
     if json_ld_price:
         return json_ld_price
@@ -243,9 +290,27 @@ def normalize_price(price_text):
         return None
 
 
+def amazon_mobile_url(url):
+    asin_match = re.search(r'/(?:dp|gp/product)/(?P<asin>[A-Z0-9]{10})(?:[/?]|$)', url, re.IGNORECASE)
+    if not asin_match:
+        return None
+    return f"https://www.amazon.in/gp/aw/d/{asin_match.group('asin').upper()}"
+
+
 def fetch_amazon_price(url):
     html = fetch_amazon_html(url)
-    return normalize_price(extract_amazon_price(html))
+    price = normalize_price(extract_amazon_price(html))
+    if price is not None:
+        return price
+
+    # The standard desktop endpoint is frequently bot-blocked. Amazon's mobile
+    # product endpoint often remains readable and contains the same live buybox
+    # or "Other New" offer price.
+    mobile_url = amazon_mobile_url(url)
+    if mobile_url and mobile_url != url:
+        mobile_html = fetch_amazon_html(mobile_url, attempts=1)
+        return normalize_price(extract_amazon_price(mobile_html))
+    return None
 
 
 FLIPKART_HEADERS = {
@@ -290,9 +355,8 @@ def fetch_flipkart_price(url, attempts=3):
 
 
 def load_last_known(history_path="history.json"):
-    """Most recent non-null Amazon and Flipkart price per book, scanning history
-    newest-first. Used to carry a price forward when a scrape is blocked, so a
-    transient bot-block doesn't wipe an otherwise-known price."""
+    """Most recent non-null store prices per book, scanning history newest-first.
+    Used to carry prices forward when a scrape is transiently blocked."""
     try:
         with open(history_path, "r", encoding="utf-8") as handle:
             history = json.load(handle)
@@ -306,6 +370,9 @@ def load_last_known(history_path="history.json"):
             if not key:
                 continue
             entry = known.setdefault(key, {})
+            if "price" not in entry and item.get("price") is not None:
+                entry["price"] = item["price"]
+                entry["in_stock"] = item.get("in_stock")
             if "amazon_price" not in entry and item.get("amazon_price") is not None:
                 entry["amazon_price"] = item["amazon_price"]
             if "flipkart_price" not in entry and item.get("flipkart_price") is not None:
@@ -328,6 +395,10 @@ def scrape_book(book, snapshot_date, last_known):
         try:
             html = fetch_html(url)
             scraped_name = extract_book_name(html)
+            # The generic homepage has misleading JSON-LD (name "Bookswagon"
+            # and price ₹1). Treat it as a failed product response.
+            if scraped_name and scraped_name.strip().casefold() == "bookswagon":
+                raise ValueError("BooksWagon returned its homepage")
             if scraped_name:
                 name = scraped_name
             price, _currency, in_stock = extract_price_and_stock(html)
@@ -335,6 +406,13 @@ def scrape_book(book, snapshot_date, last_known):
         except Exception:
             price_value = None
             in_stock = None
+        # A timeout or throttled response should not blank a previously known
+        # BooksWagon price. Actual out-of-stock responses retain in_stock=False.
+        if price_value is None and in_stock is None:
+            fallback = last_known.get(key, {})
+            if fallback.get("price") is not None:
+                price_value = fallback["price"]
+                in_stock = fallback.get("in_stock")
 
     # Scrape Amazon India price (skip if no link yet).
     amazon_price = None

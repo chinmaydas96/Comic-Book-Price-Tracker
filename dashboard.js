@@ -5,13 +5,16 @@ const AUTO_REFRESH_MS = 5 * 60 * 1000;
 // Per-franchise accent colors — the UI recolors itself around the era/franchise.
 const FRANCHISE_ACCENTS = {
   "Batman": "#f5c518",
+  "Nightwing / Red Hood": "#6366f1",
   "Justice League": "#3b82f6",
   "Crisis / Universe Events": "#a855f7",
   "Green Lantern": "#22c55e",
+  "Green Arrow": "#16a34a",
   "Superman": "#1d4ed8",
   "Flash": "#ef4444",
   "Young Justice / Teen Titans": "#ec4899",
   "Justice League Dark": "#14b8a6",
+  "Elseworld": "#8b5cf6",
 };
 const DEFAULT_ACCENT = "#3b82f6";
 
@@ -26,6 +29,7 @@ const accentFor = (franchise) => FRANCHISE_ACCENTS[franchise] || DEFAULT_ACCENT;
 
 const updatedEl = document.getElementById("last-updated");
 const refreshBtn = document.getElementById("refresh-btn");
+const rebirthFilterBtn = document.getElementById("rebirth-filter-btn");
 const statsRow = document.getElementById("stats-row");
 const filtersEl = document.getElementById("filters");
 const moversEl = document.getElementById("movers");
@@ -35,6 +39,13 @@ let chartInstances = new Map();
 let booksData = [];
 let historyData = [];
 let activeFilter = "All";
+let hideRebirth = false;
+
+// The toggle is a cutoff: it hides Rebirth itself and every later era.
+const isRebirthOrLaterEra = (book) =>
+  /\b(rebirth|infinite frontier|dawn of dc|dc all[- ]in|all[- ]in)\b/i.test(book.era || "");
+const eraScopedBooks = () =>
+  booksData.filter((book) => !hideRebirth || !isRebirthOrLaterEra(book));
 
 function formatCurrency(value) {
   if (value === null || value === undefined) return null;
@@ -148,7 +159,7 @@ function computeMovers() {
   const cur = historyData[historyData.length - 1];
   const movers = [];
 
-  booksData.forEach((book) => {
+  eraScopedBooks().forEach((book) => {
     const pi = prev.items.find((e) => itemMatchesBook(e, book));
     const ci = cur.items.find((e) => itemMatchesBook(e, book));
     if (!pi || !ci) return;
@@ -217,7 +228,8 @@ function renderMovers() {
 
 /* ---------------- Stat tiles ---------------- */
 function renderStats() {
-  const infos = booksData.map(priceInfo);
+  const scopedBooks = eraScopedBooks();
+  const infos = scopedBooks.map(priceInfo);
   const tracked = infos.filter((i) => i.tracked).length;
   const priced = infos.filter((i) => i.bestPrice != null);
   const cheapest = priced.reduce(
@@ -227,8 +239,8 @@ function renderStats() {
   const totalBest = priced.reduce((sum, i) => sum + i.bestPrice, 0);
 
   const tiles = [
-    { label: "Titles to collect", value: `${booksData.length}` },
-    { label: "Live tracked", value: `${tracked}<small> / ${booksData.length}</small>` },
+    { label: "Titles to collect", value: `${scopedBooks.length}` },
+    { label: "Live tracked", value: `${tracked}<small> / ${scopedBooks.length}</small>` },
     {
       label: "Cheapest right now",
       value: cheapest ? formatCurrency(cheapest.bestPrice) : "—",
@@ -248,14 +260,21 @@ function renderStats() {
 
 /* ---------------- Filters ---------------- */
 function renderFilters() {
+  const scopedBooks = eraScopedBooks();
   const franchises = [];
-  booksData.forEach((b) => {
+  scopedBooks.forEach((b) => {
     if (!franchises.includes(b.franchise)) franchises.push(b.franchise);
   });
 
+  // If hiding Rebirth removes the selected franchise, fall back to all of the
+  // remaining books instead of leaving the dashboard blank.
+  if (activeFilter !== "All" && !franchises.includes(activeFilter)) activeFilter = "All";
+
   const makeChip = (name, accent) => {
     const count =
-      name === "All" ? booksData.length : booksData.filter((b) => b.franchise === name).length;
+      name === "All"
+        ? scopedBooks.length
+        : scopedBooks.filter((b) => b.franchise === name).length;
     const active = name === activeFilter ? " active" : "";
     return `<button class="chip${active}" data-filter="${name}" style="--chip-accent:${accent}">
       <span class="swatch"></span>${name}<span class="count">${count}</span>
@@ -470,19 +489,20 @@ function clearCharts() {
 function renderContent() {
   clearCharts();
   contentEl.innerHTML = "";
+  const scopedBooks = eraScopedBooks();
 
   let franchiseBlock = null;
   let grid = null;
   let currentFranchise = null;
   let currentEra = null;
 
-  booksData.forEach((book) => {
+  scopedBooks.forEach((book) => {
     const accent = accentFor(book.franchise);
 
     if (book.franchise !== currentFranchise) {
       currentFranchise = book.franchise;
       currentEra = null;
-      const count = booksData.filter((b) => b.franchise === book.franchise).length;
+      const count = scopedBooks.filter((b) => b.franchise === book.franchise).length;
 
       franchiseBlock = document.createElement("section");
       franchiseBlock.className = "franchise-block";
@@ -522,6 +542,20 @@ function updateLastUpdated() {
   updatedEl.textContent = `Updated ${historyData[historyData.length - 1].date}`;
 }
 
+function renderDashboard() {
+  renderStats();
+  renderMovers();
+  renderFilters();
+  renderContent();
+}
+
+function updateRebirthToggle() {
+  rebirthFilterBtn.setAttribute("aria-checked", String(hideRebirth));
+  rebirthFilterBtn.title = hideRebirth
+    ? "Rebirth and later era books are hidden"
+    : "Hide Rebirth and later era books";
+}
+
 /* ---------------- Data ---------------- */
 async function loadData() {
   const [booksRes, historyRes] = await Promise.all([
@@ -533,10 +567,7 @@ async function loadData() {
   historyData = await historyRes.json();
 
   updateLastUpdated();
-  renderStats();
-  renderMovers();
-  renderFilters();
-  renderContent();
+  renderDashboard();
 }
 
 async function refreshData() {
@@ -583,6 +614,14 @@ themeBtn.addEventListener("click", () => {
   applyTheme(current === "light" ? "dark" : "light");
 });
 
+rebirthFilterBtn.addEventListener("click", () => {
+  hideRebirth = !hideRebirth;
+  activeFilter = "All";
+  updateRebirthToggle();
+  renderDashboard();
+});
+
+updateRebirthToggle();
 refreshBtn.addEventListener("click", runExtraction);
 refreshData();
 setInterval(refreshData, AUTO_REFRESH_MS);

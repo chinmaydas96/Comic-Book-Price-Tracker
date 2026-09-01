@@ -114,6 +114,8 @@ h1 {
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .actions button {
@@ -145,6 +147,48 @@ h1 {
 .actions button.ghost:hover {
   color: var(--text);
   background: var(--bg-elev);
+}
+
+.actions button.era-toggle {
+  gap: 9px;
+  padding-inline: 14px;
+}
+
+.toggle-track {
+  position: relative;
+  width: 30px;
+  height: 17px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--border);
+  transition: background 0.2s;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--muted);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.actions button.era-toggle[aria-checked="true"] {
+  color: var(--text);
+  border-color: var(--accent);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.era-toggle[aria-checked="true"] .toggle-track {
+  background: var(--accent);
+}
+
+.era-toggle[aria-checked="true"] .toggle-thumb {
+  background: #ffffff;
+  transform: translateX(13px);
 }
 
 .refresh-icon {

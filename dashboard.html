@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DC Omnibus Tracker</title>
-    <link rel="stylesheet" href="dashboard.css?v=11" />
+    <link rel="stylesheet" href="dashboard.css?v=13" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
@@ -20,6 +20,17 @@
         </div>
         <div class="actions">
           <span id="last-updated" class="muted"></span>
+          <button
+            id="rebirth-filter-btn"
+            type="button"
+            class="ghost era-toggle"
+            role="switch"
+            aria-checked="false"
+            aria-label="Hide Rebirth and later era books"
+          >
+            <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+            <span>Hide Rebirth+</span>
+          </button>
           <button id="theme-btn" type="button" class="ghost">
             <span id="theme-icon" aria-hidden="true">☀</span>
             <span id="theme-label">Light</span>
@@ -30,7 +41,7 @@
         </div>
       </header>
 
-      <section id="stats-row" class="stats-row"></section>
+      <section id="stats-row" class="stats-row" aria-live="polite"></section>
 
       <nav id="filters" class="filters" aria-label="Filter by franchise"></nav>
 
@@ -49,6 +60,6 @@
       </footer>
     </div>
 
-    <script src="dashboard.js?v=11"></script>
+    <script src="dashboard.js?v=15"></script>
   </body>
 </html>
