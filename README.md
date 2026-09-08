@@ -129,6 +129,10 @@ Add an entry to `books.json`:
   that store simply shows no price.
 - Set `"disabled": true` to keep a book's configuration while excluding it from
   scraping, dashboard results, and displayed history.
+- Set `"release_date": "YYYY-MM-DD"` for forthcoming books. The dashboard's
+  top **Hide unreleased** toggle is enabled by default and excludes them until
+  that date. Turn it off to display them. Use `"unreleased": true` only when
+  the release date is TBA.
 - Optional `"manual_low": { "price": 5390, "date": "2025-10-21", "store": "Amazon" }`
   seeds a known historical low.
 

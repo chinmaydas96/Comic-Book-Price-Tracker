@@ -298,6 +298,15 @@ h1 {
   background: #0a0b12;
 }
 
+.actions button.unreleased-toggle[aria-checked="true"] {
+  border-color: var(--amazon);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.unreleased-toggle[aria-checked="true"] .toggle-track {
+  background: var(--amazon);
+}
+
 /* ---------- Today's movers ---------- */
 .movers {
   margin-top: 20px;
@@ -498,6 +507,19 @@ a.mover:hover {
   min-height: 2.7em;
 }
 
+.release-status {
+  display: inline-flex;
+  margin: -5px 0 13px;
+  padding: 4px 9px;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--amazon);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 .price-rows {
   display: flex;
   flex-direction: column;
@@ -672,6 +694,15 @@ a.price-row.linked:hover .go {
   color: var(--muted);
   font-size: 0.85rem;
   font-style: italic;
+}
+
+.empty-state {
+  margin-top: 34px;
+  padding: 36px 20px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-align: center;
 }
 
 /* ---------- Legend / footer ---------- */

@@ -3,6 +3,7 @@ import os
 import re
 import sys
 import threading
+import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
@@ -472,16 +473,42 @@ def update_history(snapshot_date, items, history_path="history.json"):
     try:
         with open(history_path, "r", encoding="utf-8") as handle:
             history = json.load(handle)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except FileNotFoundError:
         history = []
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(
+            f"Refusing to overwrite malformed history file: {history_path}"
+        ) from exc
+
+    if not isinstance(history, list):
+        raise RuntimeError(
+            f"Refusing to overwrite history with an invalid root value: {history_path}"
+        )
 
     if history and history[-1].get("date") == snapshot_date:
         history[-1] = {"date": snapshot_date, "items": items}
     else:
         history.append({"date": snapshot_date, "items": items})
 
-    with open(history_path, "w", encoding="utf-8") as handle:
-        json.dump(history, handle, indent=2)
+    # Write atomically so an interrupted refresh cannot leave a partial JSON
+    # document that would cause the next run to lose the accumulated history.
+    history_dir = os.path.dirname(os.path.abspath(history_path))
+    fd, temp_path = tempfile.mkstemp(
+        prefix=".history-", suffix=".tmp", dir=history_dir
+    )
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            json.dump(history, handle, indent=2)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_path, history_path)
+    except Exception:
+        try:
+            os.unlink(temp_path)
+        except FileNotFoundError:
+            pass
+        raise
 
 
 def main():

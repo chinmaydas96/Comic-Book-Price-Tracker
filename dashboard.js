@@ -30,6 +30,7 @@ const accentFor = (franchise) => FRANCHISE_ACCENTS[franchise] || DEFAULT_ACCENT;
 const updatedEl = document.getElementById("last-updated");
 const refreshBtn = document.getElementById("refresh-btn");
 const rebirthFilterBtn = document.getElementById("rebirth-filter-btn");
+const unreleasedFilterBtn = document.getElementById("unreleased-filter-btn");
 const statsRow = document.getElementById("stats-row");
 const filtersEl = document.getElementById("filters");
 const moversEl = document.getElementById("movers");
@@ -40,12 +41,36 @@ let booksData = [];
 let historyData = [];
 let activeFilter = "All";
 let hideRebirth = false;
+// Start with forthcoming books hidden every time the dashboard is opened.
+let hideUnreleased = true;
 
 // The toggle is a cutoff: it hides Rebirth itself and every later era.
 const isRebirthOrLaterEra = (book) =>
   /\b(rebirth|infinite frontier|dawn of dc|dc all[- ]in|all[- ]in)\b/i.test(book.era || "");
 const eraScopedBooks = () =>
   booksData.filter((book) => !hideRebirth || !isRebirthOrLaterEra(book));
+
+function todayISO() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+// Confirmed dates age out automatically. The explicit flag covers announced
+// books whose publisher has not assigned a date yet.
+const isUnreleased = (book) =>
+  book.unreleased === true || Boolean(book.release_date && book.release_date > todayISO());
+
+const visibleBooks = () =>
+  eraScopedBooks().filter((book) => !hideUnreleased || !isUnreleased(book));
+
+function filteredBooks() {
+  const books = visibleBooks();
+  if (activeFilter === "All") return books;
+  return books.filter((book) => book.franchise === activeFilter);
+}
 
 function formatCurrency(value) {
   if (value === null || value === undefined) return null;
@@ -159,7 +184,7 @@ function computeMovers() {
   const cur = historyData[historyData.length - 1];
   const movers = [];
 
-  eraScopedBooks().forEach((book) => {
+  filteredBooks().forEach((book) => {
     const pi = prev.items.find((e) => itemMatchesBook(e, book));
     const ci = cur.items.find((e) => itemMatchesBook(e, book));
     if (!pi || !ci) return;
@@ -228,7 +253,7 @@ function renderMovers() {
 
 /* ---------------- Stat tiles ---------------- */
 function renderStats() {
-  const scopedBooks = eraScopedBooks();
+  const scopedBooks = filteredBooks();
   const infos = scopedBooks.map(priceInfo);
   const tracked = infos.filter((i) => i.tracked).length;
   const priced = infos.filter((i) => i.bestPrice != null);
@@ -260,7 +285,7 @@ function renderStats() {
 
 /* ---------------- Filters ---------------- */
 function renderFilters() {
-  const scopedBooks = eraScopedBooks();
+  const scopedBooks = visibleBooks();
   const franchises = [];
   scopedBooks.forEach((b) => {
     if (!franchises.includes(b.franchise)) franchises.push(b.franchise);
@@ -268,7 +293,9 @@ function renderFilters() {
 
   // If hiding Rebirth removes the selected franchise, fall back to all of the
   // remaining books instead of leaving the dashboard blank.
-  if (activeFilter !== "All" && !franchises.includes(activeFilter)) activeFilter = "All";
+  if (activeFilter !== "All" && !franchises.includes(activeFilter)) {
+    activeFilter = "All";
+  }
 
   const makeChip = (name, accent) => {
     const count =
@@ -285,30 +312,12 @@ function renderFilters() {
     makeChip("All", DEFAULT_ACCENT) +
     franchises.map((f) => makeChip(f, accentFor(f))).join("");
 
-  filtersEl.querySelectorAll(".chip").forEach((chip) => {
+  filtersEl.querySelectorAll(".chip[data-filter]").forEach((chip) => {
     chip.addEventListener("click", () => {
       activeFilter = chip.dataset.filter;
-      renderFilters();
-      applyFilter();
+      renderDashboard();
     });
   });
-}
-
-function applyFilter() {
-  contentEl.querySelectorAll(".franchise-block").forEach((block) => {
-    const show = activeFilter === "All" || block.dataset.franchise === activeFilter;
-    block.classList.toggle("hidden", !show);
-  });
-
-  // Keep the movers summary in sync with the active franchise filter.
-  let anyMover = false;
-  moversEl.querySelectorAll(".mover").forEach((el) => {
-    const show = activeFilter === "All" || el.dataset.franchise === activeFilter;
-    el.classList.toggle("hidden", !show);
-    if (show) anyMover = true;
-  });
-  const empty = moversEl.querySelector(".movers-empty");
-  if (empty) empty.classList.toggle("hidden", anyMover || !moversEl.querySelector(".mover"));
 }
 
 /* ---------------- Cards ---------------- */
@@ -333,9 +342,12 @@ function renderCard(book, accent) {
   const card = document.createElement("div");
   card.className = "card";
   card.style.setProperty("--accent", accent);
+  const releaseHtml = isUnreleased(book)
+    ? `<div class="release-status">${book.release_date ? `Releases ${formatDate(book.release_date)}` : "Release date TBA"}</div>`
+    : "";
 
   if (!info.tracked) {
-    card.innerHTML = `<h3>${book.name}</h3><p class="pending">Link pending — not tracked yet.</p>`;
+    card.innerHTML = `<h3>${book.name}</h3>${releaseHtml}<p class="pending">Link pending — not tracked yet.</p>`;
     return card;
   }
 
@@ -360,6 +372,7 @@ function renderCard(book, accent) {
 
   card.innerHTML = `
     <h3>${book.name}</h3>
+    ${releaseHtml}
     <div class="price-rows">
       ${priceRow("Bookswagon", info.bookswagon, "bookswagon", info.best === "bookswagon", book.bookswagon_url, info.bookswagonOver)}
       ${priceRow("Amazon", info.amazon, "amazon", info.best === "amazon", book.amazon_url, info.amazonOver)}
@@ -489,7 +502,12 @@ function clearCharts() {
 function renderContent() {
   clearCharts();
   contentEl.innerHTML = "";
-  const scopedBooks = eraScopedBooks();
+  const scopedBooks = filteredBooks();
+
+  if (!scopedBooks.length) {
+    contentEl.innerHTML = `<div class="empty-state">No books match these filters.</div>`;
+    return;
+  }
 
   let franchiseBlock = null;
   let grid = null;
@@ -530,8 +548,6 @@ function renderContent() {
 
     grid.appendChild(renderCard(book, accent));
   });
-
-  applyFilter();
 }
 
 function updateLastUpdated() {
@@ -543,9 +559,12 @@ function updateLastUpdated() {
 }
 
 function renderDashboard() {
+  // Render filters first because a visibility toggle can invalidate the active
+  // franchise and reset it to All.
+  updateUnreleasedToggle();
+  renderFilters();
   renderStats();
   renderMovers();
-  renderFilters();
   renderContent();
 }
 
@@ -554,6 +573,12 @@ function updateRebirthToggle() {
   rebirthFilterBtn.title = hideRebirth
     ? "Rebirth and later era books are hidden"
     : "Hide Rebirth and later era books";
+}
+
+function updateUnreleasedToggle() {
+  const count = eraScopedBooks().filter(isUnreleased).length;
+  unreleasedFilterBtn.setAttribute("aria-checked", String(hideUnreleased));
+  unreleasedFilterBtn.title = `${count} unreleased book${count === 1 ? "" : "s"} ${hideUnreleased ? "hidden" : "shown"}`;
 }
 
 /* ---------------- Data ---------------- */
@@ -621,7 +646,13 @@ rebirthFilterBtn.addEventListener("click", () => {
   renderDashboard();
 });
 
+unreleasedFilterBtn.addEventListener("click", () => {
+  hideUnreleased = !hideUnreleased;
+  renderDashboard();
+});
+
 updateRebirthToggle();
+updateUnreleasedToggle();
 refreshBtn.addEventListener("click", runExtraction);
 refreshData();
 setInterval(refreshData, AUTO_REFRESH_MS);
