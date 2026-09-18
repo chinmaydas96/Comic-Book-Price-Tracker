@@ -307,7 +307,7 @@ h1 {
   background: var(--amazon);
 }
 
-/* ---------- Today's movers ---------- */
+/* ---------- Today's price drops ---------- */
 .movers {
   margin-top: 20px;
   padding: 18px 20px;
@@ -772,4 +772,8 @@ a.price-row.linked:hover .go {
   .grid {
     grid-template-columns: 1fr;
   }
+}
+
+.dot.independent {
+  background: #a78bfa;
 }

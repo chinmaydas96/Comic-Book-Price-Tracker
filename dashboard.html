@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DC Omnibus Tracker</title>
-    <link rel="stylesheet" href="dashboard.css?v=16" />
+    <link rel="stylesheet" href="dashboard.css?v=17" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
@@ -15,11 +15,11 @@
           <div class="brand-mark">DC</div>
           <div>
             <h1>Omnibus Price Tracker</h1>
-            <p class="subtitle">Bookswagon vs Amazon India · the wishlist you don't own yet</p>
+            <p class="subtitle">Bookswagon · Amazon · Flipkart · Independent seller · the wishlist you don't own yet</p>
           </div>
         </div>
         <div class="actions">
-          <span id="last-updated" class="muted"></span>
+          <span id="last-updated" class="muted" aria-live="polite"></span>
           <button
             id="rebirth-filter-btn"
             type="button"
@@ -56,7 +56,7 @@
 
       <nav id="filters" class="filters" aria-label="Filter books"></nav>
 
-      <section id="movers" class="movers hidden" aria-label="Today's price changes"></section>
+      <section id="movers" class="movers hidden" aria-label="Today's price drops"></section>
 
       <main id="content" class="content"></main>
 
@@ -65,12 +65,13 @@
           <span><i class="dot bookswagon"></i>Bookswagon</span>
           <span><i class="dot amazon"></i>Amazon India</span>
           <span><i class="dot flipkart"></i>Flipkart</span>
+          <span><i class="dot independent"></i>Independent seller</span>
           <span><i class="dot best"></i>Best price</span>
         </div>
-        <p class="muted small">Prices refresh daily · lowest price wins the Buy button</p>
+        <p class="muted small">Online prices refresh every 20 minutes · independent seller prices are supplied quotes</p>
       </footer>
     </div>
 
-    <script src="dashboard.js?v=18"></script>
+    <script src="dashboard.js?v=24"></script>
   </body>
 </html>

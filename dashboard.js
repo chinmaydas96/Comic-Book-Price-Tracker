@@ -1,6 +1,7 @@
 const HISTORY_URL = "/api/history";
 const BOOKS_URL = "/api/books";
-const AUTO_REFRESH_MS = 5 * 60 * 1000;
+const EVENTS_URL = "/api/events";
+const DATA_POLL_MS = 60 * 1000;
 
 // Per-franchise accent colors — the UI recolors itself around the era/franchise.
 const FRANCHISE_ACCENTS = {
@@ -21,9 +22,10 @@ const DEFAULT_ACCENT = "#3b82f6";
 // Prices above this are treated as "not available" — inflated third-party or
 // placeholder listings, not a real buyable price.
 const MAX_PRICE = 15000;
+const MIN_PRICE_DROP_PERCENT = 1;
 const availablePrice = (v) => (v != null && v <= MAX_PRICE ? v : null);
 
-const STORE_LABELS = { bookswagon: "Bookswagon", amazon: "Amazon", flipkart: "Flipkart" };
+const STORE_LABELS = { bookswagon: "Bookswagon", amazon: "Amazon", flipkart: "Flipkart", independent: "Independent seller" };
 
 const accentFor = (franchise) => FRANCHISE_ACCENTS[franchise] || DEFAULT_ACCENT;
 
@@ -39,8 +41,10 @@ const contentEl = document.getElementById("content");
 let chartInstances = new Map();
 let booksData = [];
 let historyData = [];
+let priceEvents = [];
 let activeFilter = "All";
 let hideRebirth = false;
+let extractionInProgress = false;
 // Start with forthcoming books hidden every time the dashboard is opened.
 let hideUnreleased = true;
 
@@ -74,7 +78,7 @@ function filteredBooks() {
 
 function formatCurrency(value) {
   if (value === null || value === undefined) return null;
-  return `₹${Math.round(value).toLocaleString("en-IN")}`;
+  return `₹${value.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
 }
 
 function formatDate(iso) {
@@ -101,7 +105,7 @@ function allTimeLow(book) {
     [
       ["Bookswagon", item.price],
       ["Amazon", item.amazon_price],
-      ["Flipkart", item.flipkart_price],
+      ["Flipkart", book.flipkart_url ? item.flipkart_price : null],
     ].forEach(([store, val]) => {
       if (val == null || val > MAX_PRICE) return;
       if (low == null || val < low.price) low = { price: val, date: snapshot.date, store };
@@ -126,7 +130,7 @@ function buildSeries(book) {
     dates.push(snapshot.date);
     bookswagon.push(availablePrice(item.price));
     amazon.push(availablePrice(item.amazon_price));
-    flipkart.push(availablePrice(item.flipkart_price));
+    flipkart.push(book.flipkart_url ? availablePrice(item.flipkart_price) : null);
   });
   return { dates, bookswagon, amazon, flipkart };
 }
@@ -145,10 +149,12 @@ function priceInfo(book) {
   const bookswagonRaw =
     item && item.price != null && item.in_stock !== false ? item.price : null;
   const amazonRaw = item && item.amazon_price != null ? item.amazon_price : null;
-  const flipkartRaw = item && item.flipkart_price != null ? item.flipkart_price : null;
+  const flipkartRaw = book.flipkart_url && item && item.flipkart_price != null ? item.flipkart_price : null;
   const bookswagon = availablePrice(bookswagonRaw);
   const amazon = availablePrice(amazonRaw);
   const flipkart = availablePrice(flipkartRaw);
+  const independent = Number.isFinite(book.independent_price) && book.independent_price > 0
+    ? book.independent_price : null;
   // A store whose listing exists but is priced above the cap: mark it "not available".
   const bookswagonOver = bookswagonRaw != null && bookswagon == null;
   const amazonOver = amazonRaw != null && amazon == null;
@@ -159,6 +165,7 @@ function priceInfo(book) {
     { key: "bookswagon", price: bookswagon, link: book.bookswagon_url },
     { key: "amazon", price: amazon, link: book.amazon_url },
     { key: "flipkart", price: flipkart, link: book.flipkart_url },
+    { key: "independent", price: independent, link: null },
   ].filter((s) => s.price != null);
   stores.sort((a, b) => a.price - b.price);
 
@@ -168,61 +175,76 @@ function priceInfo(book) {
   const savings = stores.length >= 2 ? stores[1].price - stores[0].price : 0;
 
   return {
-    bookswagon, amazon, flipkart,
+    bookswagon, amazon, flipkart, independent,
     bookswagonOver, amazonOver, flipkartOver,
     best, bestPrice, bestLink, savings,
     tracked: Boolean(book.bookswagon_url || book.amazon_url || book.flipkart_url),
   };
 }
 
-/* ---------------- Today's movers ---------------- */
-// Diff the two most recent snapshots, per store, and list every title whose
-// price moved. Out-of-stock Bookswagon entries are ignored (not a real price).
+/* ---------------- Today's price drops ---------------- */
+// Drop events are persisted at scrape time, so an intraday low remains visible
+// even if a later refresh on the same day records a rebound.
 function computeMovers() {
-  if (historyData.length < 2) return [];
-  const prev = historyData[historyData.length - 2];
-  const cur = historyData[historyData.length - 1];
-  const movers = [];
+  const books = new Map(filteredBooks().map((book) => [book.id, book]));
+  const today = todayISO();
 
-  filteredBooks().forEach((book) => {
-    const pi = prev.items.find((e) => itemMatchesBook(e, book));
-    const ci = cur.items.find((e) => itemMatchesBook(e, book));
-    if (!pi || !ci) return;
-
-    [
-      ["Bookswagon", "price", book.bookswagon_url],
-      ["Amazon", "amazon_price", book.amazon_url],
-      ["Flipkart", "flipkart_price", book.flipkart_url],
-    ].forEach(([store, field, href]) => {
-      let a = pi[field];
-      let b = ci[field];
-      if (field === "price") {
-        if (pi.in_stock === false) a = null;
-        if (ci.in_stock === false) b = null;
-      }
-      a = availablePrice(a);
-      b = availablePrice(b);
-      if (a == null || b == null || a === b) return;
-      movers.push({ book, store, href, from: a, to: b, delta: b - a, pct: ((b - a) / a) * 100 });
+  const movers = priceEvents
+    .filter((event) => {
+      const from = Number(event.from);
+      const to = Number(event.to);
+      const dropPercent = ((from - to) / from) * 100;
+      return (
+        from > 0 &&
+        to < from &&
+        Number.isFinite(dropPercent) &&
+        dropPercent >= MIN_PRICE_DROP_PERCENT &&
+        event.date === today &&
+        books.has(event.book_id) &&
+        (event.store !== "Flipkart" || Boolean(books.get(event.book_id).flipkart_url))
+      );
+    })
+    .map((event) => {
+      const book = books.get(event.book_id);
+      const href =
+        event.store === "Bookswagon"
+          ? book.bookswagon_url
+          : event.store === "Amazon"
+            ? book.amazon_url
+            : book.flipkart_url;
+      return {
+        book,
+        store: event.store,
+        href,
+        from: event.from,
+        to: event.to,
+        delta: event.delta,
+        pct: ((event.to - event.from) / event.from) * 100,
+        capturedAt: event.captured_at || event.date,
+      };
     });
-  });
 
-  // Biggest drops first, then biggest rises.
-  movers.sort((x, y) => x.delta - y.delta);
+  movers.sort((x, y) => y.capturedAt.localeCompare(x.capturedAt) || x.delta - y.delta);
   return movers;
 }
 
+function formatEventTime(value) {
+  const d = new Date(value.length === 10 ? `${value}T00:00:00` : value);
+  if (Number.isNaN(d.getTime())) return value;
+  const date = d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+  if (value.length === 10) return date;
+  const time = d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  return `${date}, ${time}`;
+}
+
 function renderMovers() {
-  // Drops only — price rises are intentionally ignored.
-  const movers = computeMovers().filter((m) => m.delta < 0);
+  const movers = computeMovers();
   if (!movers.length) {
     moversEl.innerHTML = "";
     moversEl.classList.add("hidden");
     return;
   }
   moversEl.classList.remove("hidden");
-
-  const asOf = historyData[historyData.length - 1].date;
 
   const rows = movers
     .map((m) => {
@@ -235,7 +257,7 @@ function renderMovers() {
       return `<${tag} class="mover ${dir}" data-franchise="${m.book.franchise}" ${link}
           style="--accent:${accentFor(m.book.franchise)}">
         <span class="mover-name">${m.book.name}</span>
-        <span class="mover-store"><i class="dot ${m.store.toLowerCase()}"></i>${m.store}</span>
+        <span class="mover-store"><i class="dot ${m.store.toLowerCase()}"></i>${m.store} · ${formatEventTime(m.capturedAt)}</span>
         <span class="mover-prices">${formatCurrency(m.from)} <span class="arrow">→</span> ${formatCurrency(m.to)}</span>
         <span class="mover-delta">${arrow} ${Math.abs(m.pct).toFixed(1)}%</span>
       </${tag}>`;
@@ -245,7 +267,7 @@ function renderMovers() {
   moversEl.innerHTML = `
     <div class="movers-head">
       <h2>Today's price drops</h2>
-      <span class="movers-sub">${movers.length} drop${movers.length === 1 ? "" : "s"} · as of ${formatDate(asOf)}</span>
+      <span class="movers-sub">${movers.length} drop${movers.length === 1 ? "" : "s"} · ${formatDate(todayISO())}</span>
     </div>
     <div class="movers-list">${rows}</div>
     <p class="movers-empty muted small hidden">No price drops in this franchise today.</p>`;
@@ -346,7 +368,7 @@ function renderCard(book, accent) {
     ? `<div class="release-status">${book.release_date ? `Releases ${formatDate(book.release_date)}` : "Release date TBA"}</div>`
     : "";
 
-  if (!info.tracked) {
+  if (!info.tracked && info.independent == null) {
     card.innerHTML = `<h3>${book.name}</h3>${releaseHtml}<p class="pending">Link pending — not tracked yet.</p>`;
     return card;
   }
@@ -358,7 +380,7 @@ function renderCard(book, accent) {
 
   const buy = info.bestLink
     ? `<a class="buy-btn" href="${info.bestLink}" target="_blank" rel="noopener noreferrer">Buy on ${STORE_LABELS[info.best]}</a>`
-    : "";
+    : info.best === "independent" ? '<span class="muted small">Contact independent seller</span>' : "";
 
   const low = allTimeLow(book);
   const atCurrentLow = low && info.bestPrice != null && info.bestPrice <= low.price;
@@ -377,7 +399,9 @@ function renderCard(book, accent) {
       ${priceRow("Bookswagon", info.bookswagon, "bookswagon", info.best === "bookswagon", book.bookswagon_url, info.bookswagonOver)}
       ${priceRow("Amazon", info.amazon, "amazon", info.best === "amazon", book.amazon_url, info.amazonOver)}
       ${book.flipkart_url ? priceRow("Flipkart", info.flipkart, "flipkart", info.best === "flipkart", book.flipkart_url, info.flipkartOver) : ""}
+      ${priceRow("Independent seller", info.independent, "independent", info.best === "independent", null, false)}
     </div>
+    ${info.independent != null ? '<p class="muted small">Seller quote · final price after 32% off</p>' : ""}
     ${lowHtml}
     <div class="card-foot">${savingsText}${buy}</div>
     <div class="spark"><canvas></canvas></div>
@@ -550,12 +574,16 @@ function renderContent() {
   });
 }
 
-function updateLastUpdated() {
+function updateLastUpdated(status = "") {
   if (!historyData.length) {
-    updatedEl.textContent = "No data yet";
+    updatedEl.textContent = status || "No data yet";
     return;
   }
-  updatedEl.textContent = `Updated ${historyData[historyData.length - 1].date}`;
+  const latest = historyData[historyData.length - 1];
+  const lastRefresh = `Last refreshed ${
+    latest.captured_at ? formatEventTime(latest.captured_at) : formatDate(latest.date)
+  }`;
+  updatedEl.textContent = status ? `${status} · ${lastRefresh}` : lastRefresh;
 }
 
 function renderDashboard() {
@@ -583,13 +611,15 @@ function updateUnreleasedToggle() {
 
 /* ---------------- Data ---------------- */
 async function loadData() {
-  const [booksRes, historyRes] = await Promise.all([
+  const [booksRes, historyRes, eventsRes] = await Promise.all([
     fetch(BOOKS_URL, { cache: "no-store" }),
     fetch(HISTORY_URL, { cache: "no-store" }),
+    fetch(EVENTS_URL, { cache: "no-store" }),
   ]);
-  if (!booksRes.ok || !historyRes.ok) throw new Error("Failed to load data");
+  if (!booksRes.ok || !historyRes.ok || !eventsRes.ok) throw new Error("Failed to load data");
   booksData = await booksRes.json();
   historyData = await historyRes.json();
+  priceEvents = await eventsRes.json();
 
   updateLastUpdated();
   renderDashboard();
@@ -599,20 +629,24 @@ async function refreshData() {
   try {
     await loadData();
   } catch (e) {
-    updatedEl.textContent = "API unreachable — restart server.py & hard-reload";
+    updateLastUpdated("API unreachable — retrying automatically");
   }
 }
 
 async function runExtraction() {
+  if (extractionInProgress) return;
+  extractionInProgress = true;
   refreshBtn.classList.add("loading");
   refreshBtn.disabled = true;
+  updateLastUpdated("Refreshing prices…");
   try {
     const res = await fetch("/api/refresh", { cache: "no-store" });
     if (!res.ok) throw new Error("Refresh failed");
     await loadData();
   } catch (e) {
-    updatedEl.textContent = "Unable to refresh";
+    updateLastUpdated("Unable to refresh");
   } finally {
+    extractionInProgress = false;
     refreshBtn.classList.remove("loading");
     refreshBtn.disabled = false;
   }
@@ -655,4 +689,4 @@ updateRebirthToggle();
 updateUnreleasedToggle();
 refreshBtn.addEventListener("click", runExtraction);
 refreshData();
-setInterval(refreshData, AUTO_REFRESH_MS);
+setInterval(refreshData, DATA_POLL_MS);

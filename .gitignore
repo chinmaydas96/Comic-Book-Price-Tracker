@@ -225,3 +225,4 @@ auto-refresh/
 # Saved Amazon page fixtures — large and contain stale anonymous session tokens
 amazon_sample.html
 amazon_sample_2.html
+.price_drop_notifications.json

@@ -1,0 +1,350 @@
+{
+  "seller": "Independent seller",
+  "discount_percent": 32,
+  "provided_on": "2026-09-12",
+  "offers": [
+    {
+      "isbn": "9781779528032",
+      "title": "Batman: Bruce Wayne - Murderer Turned Fugitive Omnibus",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799500469",
+      "title": "Batman: Knightfall Omnibus Vol. 2: Knightquest (2025 Edition)",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779529503",
+      "title": "Batman: The Arkham Saga Omnibus (New Edition)",
+      "original_price": 14099.0,
+      "final_price": 9587.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779527448",
+      "title": "Batman by Paul Dini Omnibus (New Edition)",
+      "original_price": 11099.0,
+      "final_price": 7547.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799502142",
+      "title": "Batman War Games Omnibus",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799502401",
+      "title": "Batman Detective Comics by Mariko Tamaki",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799507369",
+      "title": "Batman By James Tynion IV Omnibus Vol. 2",
+      "original_price": 11250.0,
+      "final_price": 7650.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799500636",
+      "title": "Batman by James Tynion IV Omnibus Vol. 1",
+      "original_price": 10599.0,
+      "final_price": 7207.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799507819",
+      "title": "Batman By Chip Zdarsky Omnibus Vol. 1",
+      "original_price": 11750.0,
+      "final_price": 7990.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779521194",
+      "title": "The Batman Adventures Omnibus",
+      "original_price": 12750.0,
+      "final_price": 8670.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799508038",
+      "title": "Batman Urban Legends Omnibus Volume 1",
+      "original_price": 9399.0,
+      "final_price": 6391.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779503442",
+      "title": "Infinite Crisis Omnibus (2020 Edition)",
+      "original_price": 12750.0,
+      "final_price": 8670.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779516336",
+      "title": "Brightest Day Omnibus (2022 Edition)",
+      "original_price": 8499.0,
+      "final_price": 5779.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781401273866",
+      "title": "Justice League International Omnibus Vol. 1",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779502964",
+      "title": "Justice League International Omnibus Vol. 2",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779525642",
+      "title": "Justice League International Omnibus Vol. 3",
+      "original_price": 13299.0,
+      "final_price": 9043.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781401285463",
+      "title": "Aquaman by Geoff Johns Omnibus",
+      "original_price": 5999.0,
+      "final_price": 4079.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779513458",
+      "title": "The Flash by Geoff Johns Omnibus Vol. 3",
+      "original_price": 8499.0,
+      "final_price": 5779.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799501398",
+      "title": "Red Hood & the Outlaws The New 52 Omnibus Vol. 1 (2025 Edition)",
+      "original_price": 8999.0,
+      "final_price": 6119.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799501671",
+      "title": "The Spectre: The Wrath of the Spectre Omnibus (2025 Edition)",
+      "original_price": 8999.0,
+      "final_price": 6119.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779528513",
+      "title": "Deathstroke: The Terminator by Marv Wolfman Omnibus Vol. 1",
+      "original_price": 11099.0,
+      "final_price": 7547.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779523075",
+      "title": "Dark Nights: Death Metal Omnibus",
+      "original_price": 11099.0,
+      "final_price": 7547.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799501374",
+      "title": "Knight Terrors Omnibus",
+      "original_price": 14099.0,
+      "final_price": 9587.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799503217",
+      "title": "Superman: Our Worlds At War Omnibus Volume 1: Prelude To War!",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799505112",
+      "title": "Superman Action Comics by Dan Jurgens Volume 1",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799508533",
+      "title": "Superman: Action Comics By Dan Jurgens Omnibus Vol. 2",
+      "original_price": 9399.0,
+      "final_price": 6391.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799502029",
+      "title": "Superman by Phillip Kennedy Johnson Omnibus Vol. 1",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799508229",
+      "title": "Superman: Brainiac Reborn Omnibus",
+      "original_price": 14099.0,
+      "final_price": 9587.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799507376",
+      "title": "Superman: New Krypton Saga Omnibus Vol. 1",
+      "original_price": 11750.0,
+      "final_price": 7990.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799502456",
+      "title": "Elseworlds: Superman Omnibus Vol. 1",
+      "original_price": 14099.0,
+      "final_price": 9587.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799500377",
+      "title": "Forever Evil Omnibus",
+      "original_price": 14099.0,
+      "final_price": 9587.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779509772",
+      "title": "Flashpoint: The 10th Anniversary Omnibus",
+      "original_price": 12750.0,
+      "final_price": 8670.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779515032",
+      "title": "Catwoman of East End Omnibus",
+      "original_price": 8499.0,
+      "final_price": 5779.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799503354",
+      "title": "Hitman by Garth Ennis and John McCrea Omnibus Vol. 2",
+      "original_price": 11750.0,
+      "final_price": 7990.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799504887",
+      "title": "The Spectre by John Ostrander and Tom Mandrake Omnibus Vol. 1",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799506409",
+      "title": "Jonah Hex: All-Star Western Omnibus",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799506430",
+      "title": "Justice League by Scott Snyder and James Tynion IV Omnibus Vol. 2",
+      "original_price": 11299.0,
+      "final_price": 7683.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799502470",
+      "title": "Wonder Woman by Phil Jimenez Omnibus",
+      "original_price": 8999.0,
+      "final_price": 6119.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779504999",
+      "title": "JLA by Grant Morrison Omnibus",
+      "original_price": 12750.0,
+      "final_price": 8670.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799507352",
+      "title": "The Flash By Mark Waid Omnibus Vol. 3",
+      "original_price": 14099.0,
+      "final_price": 9587.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799507383",
+      "title": "Titans By Tom Taylor Omnibus",
+      "original_price": 9399.0,
+      "final_price": 6391.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799501169",
+      "title": "Nightwing: Rebirth Omnibus",
+      "original_price": 10599.0,
+      "final_price": 7207.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781779515636",
+      "title": "Gotham Central Omnibus (2022 Edition)",
+      "original_price": 8499.0,
+      "final_price": 5779.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799508205",
+      "title": "The Swamp Thing By Ram V. And Mike Perkins Omnibus",
+      "original_price": 9399.0,
+      "final_price": 6391.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799507666",
+      "title": "Earth 2: The New 52 Omnibus Vol. 1",
+      "original_price": 11750.0,
+      "final_price": 7990.0,
+      "category": "omnibus"
+    },
+    {
+      "isbn": "9781799507642",
+      "title": "John Constantine, Hellblazer By Paul Jenkins And Sean Phillips Omnibus",
+      "original_price": 14099.0,
+      "final_price": 9587.32,
+      "category": "omnibus"
+    },
+    {
+      "isbn": null,
+      "title": "Secret Six by Gail Simone Omnibus Volume 1 & 2",
+      "original_price": 21698.0,
+      "final_price": 14754.64,
+      "category": "combo"
+    },
+    {
+      "isbn": null,
+      "title": "Green Lantern Corps by Peter Tomasi Volume 1 & 2",
+      "original_price": 25500.0,
+      "final_price": 17340.0,
+      "category": "combo"
+    },
+    {
+      "isbn": null,
+      "title": "Justice League: The New 52 Omnibus Volume 1 & 2",
+      "original_price": 22198.0,
+      "final_price": 15094.64,
+      "category": "combo"
+    }
+  ]
+}

@@ -8,8 +8,10 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 HISTORY_PATH = os.path.join(BASE_DIR, "history.json")
+EVENTS_PATH = os.path.join(BASE_DIR, "price_events.json")
 EXTRACT_PATH = os.path.join(BASE_DIR, "extract.py")
 BOOKS_PATH = os.path.join(BASE_DIR, "books.json")
+MIN_PRICE_DROP_PERCENT = 1
 
 RUN_LOCK = threading.Lock()
 
@@ -68,6 +70,34 @@ def load_history():
     return history
 
 
+def load_price_events():
+    """Return significant price drops for books still in the active list."""
+    try:
+        with open(EVENTS_PATH, "r", encoding="utf-8") as handle:
+            events = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+    if not isinstance(events, list):
+        return []
+
+    allowed_ids = {book.get("id") for book in load_books()}
+    filtered_events = []
+    for event in events:
+        old_price = event.get("from")
+        new_price = event.get("to")
+        if not isinstance(old_price, (int, float)) or not isinstance(
+            new_price, (int, float)
+        ):
+            continue
+        if old_price <= 0 or new_price >= old_price:
+            continue
+        if (old_price - new_price) * 100 < old_price * MIN_PRICE_DROP_PERCENT:
+            continue
+        if event.get("book_id") in allowed_ids:
+            filtered_events.append(event)
+    return filtered_events
+
+
 def run_extract():
     with RUN_LOCK:
         result = subprocess.run(
@@ -98,6 +128,15 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         if self.path == "/api/history":
             history = load_history()
             payload = json.dumps(history).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(payload)))
+            self.end_headers()
+            self.wfile.write(payload)
+            return
+
+        if self.path == "/api/events":
+            payload = json.dumps(load_price_events()).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.send_header("Content-Length", str(len(payload)))

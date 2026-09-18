@@ -54,6 +54,15 @@
     "amazon_url": "https://www.amazon.in/dp/1799516628"
   },
   {
+    "id": "dc-finest-batman-blind-justice",
+    "name": "DC Finest: Batman: Blind Justice",
+    "franchise": "Batman",
+    "era": "Era 1: Early Post-Crisis (1986–1993)",
+    "release_date": "2026-07-14",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799513162",
+    "amazon_url": "https://www.amazon.in/dp/1799513165"
+  },
+  {
     "id": "batman-road-to-no-mans-land",
     "name": "Road to No Man's Land Omnibus",
     "franchise": "Batman",
@@ -98,6 +107,7 @@
   },
   {
     "id": "red-hood-outlaws-new52-omnibus-vol-1",
+    "independent_price": 6119.32,
     "name": "Red Hood & the Outlaws: The New 52 Omnibus Vol. 1 (2025 Edition)",
     "franchise": "Nightwing / Red Hood",
     "era": "Era 5: New 52 (2011–2014)",
@@ -138,6 +148,15 @@
     "amazon_url": "https://www.amazon.in/dp/1779517327"
   },
   {
+    "id": "batman-black-mirror-deluxe",
+    "name": "Batman: Black Mirror The Deluxe Edition",
+    "franchise": "Batman",
+    "era": "Post-Crisis (2010–2011)",
+    "release_date": "2024-05-21",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779525895",
+    "amazon_url": "https://www.amazon.in/dp/1779525893"
+  },
+  {
     "id": "batman-robin-eternal-omnibus",
     "name": "Batman & Robin Eternal Omnibus",
     "franchise": "Batman",
@@ -155,6 +174,7 @@
   },
   {
     "id": "batman-nightwing-rebirth-omnibus",
+    "independent_price": 7207.32,
     "name": "Nightwing: Rebirth Omnibus",
     "franchise": "Nightwing / Red Hood",
     "era": "Era 6: Rebirth (2016–2021)",
@@ -163,6 +183,7 @@
   },
   {
     "id": "batman-tynion-omnibus-vol-2",
+    "independent_price": 7650.0,
     "name": "Batman by James Tynion IV Omnibus Vol. 2",
     "franchise": "Batman",
     "era": "Era 6: Rebirth (2016–2021)",
@@ -179,6 +200,7 @@
   },
   {
     "id": "batman-detective-comics-tamaki-omnibus",
+    "independent_price": 7683.32,
     "name": "Batman: Detective Comics by Mariko Tamaki Omnibus",
     "franchise": "Batman",
     "era": "Era 7: Infinite Frontier / Dawn of DC (2021–2025)",
@@ -187,11 +209,21 @@
   },
   {
     "id": "batman-urban-legends-omnibus-vol-1",
+    "independent_price": 6391.32,
     "name": "Batman: Urban Legends Omnibus Vol. 1",
     "franchise": "Batman",
     "era": "Era 7: Infinite Frontier (2021–2022)",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508038",
     "amazon_url": "https://www.amazon.in/dp/179950803X"
+  },
+  {
+    "id": "nightwing-tom-taylor-omnibus-vol-1",
+    "name": "Nightwing by Tom Taylor and Bruno Redondo Omnibus Vol. 1",
+    "franchise": "Nightwing / Red Hood",
+    "era": "Era 7: Infinite Frontier (2021–2022)",
+    "release_date": "2025-07-22",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799502197",
+    "amazon_url": "https://www.amazon.in/dp/1799502198"
   },
   {
     "id": "nightwing-tom-taylor-omnibus-vol-2",
@@ -203,6 +235,7 @@
   },
   {
     "id": "batman-zdarsky-omnibus-vol-1",
+    "independent_price": 7990.0,
     "name": "Batman by Chip Zdarsky Omnibus Vol. 1",
     "franchise": "Batman",
     "era": "Era 7: Infinite Frontier / Dawn of DC (2021–2025)",
@@ -237,6 +270,7 @@
   },
   {
     "id": "jl-jli-omnibus-vol-2",
+    "independent_price": 7683.32,
     "name": "Justice League International Omnibus Vol. 2",
     "franchise": "Justice League",
     "era": "Justice League International (1987–1996)",
@@ -245,6 +279,7 @@
   },
   {
     "id": "jl-jli-omnibus-vol-3",
+    "independent_price": 9043.32,
     "name": "Justice League International Omnibus Vol. 3",
     "franchise": "Justice League",
     "era": "Justice League International (1987–1996)",
@@ -262,6 +297,7 @@
   },
   {
     "id": "jl-snyder-tynion-omnibus-vol-2",
+    "independent_price": 7683.32,
     "name": "Justice League by Scott Snyder and James Tynion IV Omnibus Vol. 2",
     "franchise": "Justice League",
     "era": "Era 3: Rebirth",
@@ -301,7 +337,6 @@
     "era": "Infinite Crisis Era",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779515438",
     "amazon_url": "https://www.amazon.in/dp/177951543X",
-    "flipkart_url": "https://www.flipkart.com/52-omnibus/p/itm4486bda99c189",
     "manual_low": { "price": 7214, "date": "2026-06-29", "store": "Amazon" }
   },
   {
@@ -310,8 +345,7 @@
     "franchise": "Crisis / Universe Events",
     "era": "Rebirth / Metal Era",
     "bookswagon_url": "https://www.bookswagon.com/book/dark-nights-greg-capullo-scott/9781779517036",
-    "amazon_url": "https://www.amazon.in/gp/product/1779517033/",
-    "flipkart_url": "https://www.flipkart.com/dark-nights-metal-omnibus/p/itm1920c5e9aa116"
+    "amazon_url": "https://www.amazon.in/gp/product/1779517033/"
   },
   {
     "id": "crisis-doomsday-clock-complete-collection",
@@ -339,6 +373,7 @@
   },
   {
     "id": "crisis-knight-terrors-omnibus",
+    "independent_price": 9587.32,
     "name": "Knight Terrors Omnibus",
     "franchise": "Crisis / Universe Events",
     "era": "Dawn of DC (2023)",
@@ -351,7 +386,7 @@
     "franchise": "Crisis / Universe Events",
     "era": "DC All-In Prelude (2024)",
     "release_date": "2026-09-15",
-    "bookswagon_url": null,
+    "bookswagon_url": "https://www.bookswagon.com/book/absolute-power-omnibus-dan-mora/9781799509097",
     "amazon_url": "https://www.amazon.in/dp/1799509095"
   },
   {
@@ -381,12 +416,30 @@
     "amazon_url": "https://www.amazon.in/dp/1779525737"
   },
   {
+    "id": "dc-finest-green-lantern-setting-up-shop",
+    "name": "DC Finest: Green Lantern: Setting Up Shop",
+    "franchise": "Green Lantern",
+    "era": "Post-Crisis",
+    "release_date": "2026-10-06",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799510291",
+    "amazon_url": "https://www.amazon.in/dp/1799510298"
+  },
+  {
     "id": "gl-corps-tomasi-gleason-omnibus-vol-2",
     "name": "Green Lantern Corps by Peter J. Tomasi and Patrick Gleason Omnibus Vol. 2",
     "franchise": "Green Lantern",
     "era": "Post-Crisis",
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779527523",
     "amazon_url": "https://www.amazon.in/dp/1779527527"
+  },
+  {
+    "id": "red-lanterns-new-52-omnibus",
+    "name": "Red Lanterns: The New 52 Omnibus",
+    "franchise": "Green Lantern",
+    "era": "New 52 (2011–2015)",
+    "release_date": "2025-06-10",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799501763",
+    "amazon_url": "https://www.amazon.in/dp/1799501760"
   },
   {
     "id": "gl-hal-jordan-corps-venditti-omnibus-vol-1",
@@ -416,6 +469,32 @@
     "amazon_url": "https://www.amazon.in/dp/1799516571"
   },
   {
+    "id": "green-arrow-year-one-deluxe-2027",
+    "name": "Green Arrow: Year One: The Deluxe Edition (2027 Edition)",
+    "franchise": "Green Arrow",
+    "era": "Origin",
+    "release_date": "2027-03-23",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799513940",
+    "amazon_url": "https://www.amazon.in/dp/1799513947"
+  },
+  {
+    "id": "dc-finest-green-arrow-longbow-hunters",
+    "name": "DC Finest: Green Arrow: The Longbow Hunters",
+    "franchise": "Green Arrow",
+    "era": "Post-Crisis",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779529916",
+    "amazon_url": "https://www.amazon.in/dp/1779529910"
+  },
+  {
+    "id": "dc-finest-green-arrow-trial-oliver-queen",
+    "name": "DC Finest: Green Arrow: The Trial of Oliver Queen",
+    "franchise": "Green Arrow",
+    "era": "Post-Crisis",
+    "release_date": "2026-02-10",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799510246",
+    "amazon_url": "https://www.amazon.in/dp/1799510247"
+  },
+  {
     "id": "green-arrow-archers-quest-omnibus-vol-1",
     "name": "Green Arrow: Archer's Quest Omnibus Vol. 1",
     "franchise": "Green Arrow",
@@ -434,6 +513,15 @@
     "amazon_url": "https://www.amazon.in/dp/179951644X"
   },
   {
+    "id": "green-arrow-lemire-sorrentino-deluxe-new-edition",
+    "name": "Green Arrow by Jeff Lemire and Andrea Sorrentino: The Deluxe Edition (New Edition)",
+    "franchise": "Green Arrow",
+    "era": "New 52 (2013–2014)",
+    "release_date": "2026-05-26",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781799508007",
+    "amazon_url": "https://www.amazon.in/dp/1799508005"
+  },
+  {
     "id": "superman-exile-omnibus",
     "name": "Superman: Exile and Other Stories Omnibus",
     "franchise": "Superman",
@@ -444,6 +532,7 @@
   },
   {
     "id": "superman-brainiac-reborn-omnibus",
+    "independent_price": 9587.32,
     "name": "Superman: Brainiac Reborn Omnibus",
     "franchise": "Superman",
     "era": "Triangle Era (1989–1994)",
@@ -468,6 +557,7 @@
   },
   {
     "id": "superman-our-worlds-at-war-omnibus-vol-1",
+    "independent_price": 7683.32,
     "name": "Superman: Our Worlds at War Omnibus Vol. 1: Prelude to War!",
     "franchise": "Superman",
     "era": "Our Worlds at War (1999–2001)",
@@ -501,6 +591,7 @@
   },
   {
     "id": "superman-new-krypton-saga-omnibus-vol-1",
+    "independent_price": 7990.0,
     "name": "Superman: New Krypton Saga Omnibus Vol. 1",
     "franchise": "Superman",
     "era": "New Krypton (2008–2010)",
@@ -508,7 +599,16 @@
     "amazon_url": "https://www.amazon.in/dp/1799507378"
   },
   {
+    "id": "superman-unchained-deluxe",
+    "name": "Superman Unchained: The Deluxe Edition (2023 Edition)",
+    "franchise": "Superman",
+    "era": "New 52 (2013–2014)",
+    "bookswagon_url": "https://www.bookswagon.com/book/x/9781779526236",
+    "amazon_url": "https://www.amazon.in/dp/1779526237"
+  },
+  {
     "id": "superman-action-comics-jurgens-omnibus-vol-1",
+    "independent_price": 7683.32,
     "name": "Superman: Action Comics by Dan Jurgens Omnibus Vol. 1",
     "franchise": "Superman",
     "era": "Rebirth (2016–2018)",
@@ -517,6 +617,7 @@
   },
   {
     "id": "superman-action-comics-jurgens-omnibus-vol-2",
+    "independent_price": 6391.32,
     "name": "Superman: Action Comics by Dan Jurgens Omnibus Vol. 2",
     "franchise": "Superman",
     "era": "Rebirth (2016–2018)",
@@ -533,6 +634,7 @@
   },
   {
     "id": "superman-phillip-kennedy-johnson-omnibus-vol-1",
+    "independent_price": 7683.32,
     "name": "Superman by Phillip Kennedy Johnson Omnibus Vol. 1",
     "franchise": "Superman",
     "era": "Infinite Frontier / Warworld Saga (2021–2022)",
@@ -553,6 +655,7 @@
     "name": "Superman/Batman Omnibus Vol. 2",
     "franchise": "Superman",
     "era": "Superman/Batman (2003–2011)",
+    "disabled": true,
     "bookswagon_url": "https://www.bookswagon.com/book/x/9781779510235",
     "amazon_url": "https://www.amazon.in/dp/1779510233"
   },
@@ -566,6 +669,7 @@
   },
   {
     "id": "flash-mark-waid-omnibus-vol-3",
+    "independent_price": 9587.32,
     "name": "Flash by Mark Waid Omnibus Vol. 3",
     "franchise": "Flash",
     "era": "Post-Crisis",
@@ -669,6 +773,7 @@
   },
   {
     "id": "titans-tom-taylor-omnibus",
+    "independent_price": 6391.32,
     "name": "Titans by Tom Taylor Omnibus",
     "franchise": "Young Justice / Teen Titans",
     "era": "Dawn of DC (2023–2024)",
@@ -685,6 +790,7 @@
   },
   {
     "id": "elseworlds-superman-omnibus-vol-1",
+    "independent_price": 9587.32,
     "name": "Elseworlds: Superman Omnibus Vol. 1",
     "franchise": "Elseworld",
     "era": "Elseworlds (1993–1998)",

@@ -6,11 +6,17 @@ import threading
 import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date
+from datetime import datetime
 from urllib.request import Request, urlopen
+
+from price_drop_notifier import notify_large_price_drops
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BOOKS_PATH = os.path.join(BASE_DIR, "books.json")
+RESULTS_PATH = os.path.join(BASE_DIR, "results.json")
+EVENTS_PATH = os.path.join(BASE_DIR, "price_events.json")
+MAX_PRICE = 15000
+MIN_PRICE_DROP_PERCENT = 1
 
 BOOKSWAGON_HEADERS = {
     "User-Agent": "Mozilla/5.0",
@@ -355,6 +361,109 @@ def fetch_flipkart_price(url, attempts=3):
     return None
 
 
+def write_json_atomic(path, data):
+    """Write JSON without exposing readers to a partial document."""
+    target_dir = os.path.dirname(os.path.abspath(path))
+    fd, temp_path = tempfile.mkstemp(
+        prefix=f".{os.path.basename(path)}-", suffix=".tmp", dir=target_dir
+    )
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            json.dump(data, handle, indent=2)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_path, path)
+    except Exception:
+        try:
+            os.unlink(temp_path)
+        except FileNotFoundError:
+            pass
+        raise
+
+
+def load_json_list(path, label):
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            data = json.load(handle)
+    except FileNotFoundError:
+        return []
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"Refusing to overwrite malformed {label}: {path}") from exc
+    if not isinstance(data, list):
+        raise RuntimeError(f"Invalid {label} root value: {path}")
+    return data
+
+
+def event_price(item, field):
+    """Return a real buyable price using the same rules as the dashboard."""
+    value = item.get(field)
+    if value is None or value > MAX_PRICE:
+        return None
+    if field == "price" and item.get("in_stock") is False:
+        return None
+    return value
+
+
+def find_price_drops(previous_items, current_items, captured_at):
+    """Create durable events for drops between two consecutive refreshes."""
+    previous = {
+        item.get("id") or item.get("url"): item
+        for item in previous_items
+        if item.get("id") or item.get("url")
+    }
+    events = []
+    for item in current_items:
+        key = item.get("id") or item.get("url")
+        old_item = previous.get(key)
+        if old_item is None:
+            continue
+        for store, field, url_field in (
+            ("Bookswagon", "price", "url"),
+            ("Amazon", "amazon_price", "amazon_url"),
+            ("Flipkart", "flipkart_price", "flipkart_url"),
+        ):
+            old_price = event_price(old_item, field)
+            new_price = event_price(item, field)
+            if (
+                old_price is None
+                or new_price is None
+                or old_price <= 0
+                or new_price >= old_price
+                or (old_price - new_price) * 100
+                < old_price * MIN_PRICE_DROP_PERCENT
+            ):
+                continue
+            event_id = (
+                f"{captured_at}|{key}|{store}|{old_price:g}|{new_price:g}"
+            )
+            events.append(
+                {
+                    "event_id": event_id,
+                    "captured_at": captured_at,
+                    "date": captured_at[:10],
+                    "book_id": item.get("id"),
+                    "name": item.get("name") or key,
+                    "franchise": item.get("franchise"),
+                    "store": store,
+                    "url": item.get(url_field),
+                    "from": old_price,
+                    "to": new_price,
+                    "delta": new_price - old_price,
+                }
+            )
+    return events
+
+
+def append_price_events(events, events_path=EVENTS_PATH):
+    if not events:
+        return
+    existing = load_json_list(events_path, "price event file")
+    known_ids = {event.get("event_id") for event in existing}
+    existing.extend(event for event in events if event.get("event_id") not in known_ids)
+    write_json_atomic(events_path, existing)
+
+
 def load_last_known(history_path="history.json"):
     """Most recent non-null store prices per book, scanning history newest-first.
     Used to carry prices forward when a scrape is transiently blocked."""
@@ -469,46 +578,18 @@ def collect_items(snapshot_date, books=None, max_workers=8):
     return items
 
 
-def update_history(snapshot_date, items, history_path="history.json"):
-    try:
-        with open(history_path, "r", encoding="utf-8") as handle:
-            history = json.load(handle)
-    except FileNotFoundError:
-        history = []
-    except json.JSONDecodeError as exc:
-        raise RuntimeError(
-            f"Refusing to overwrite malformed history file: {history_path}"
-        ) from exc
-
-    if not isinstance(history, list):
-        raise RuntimeError(
-            f"Refusing to overwrite history with an invalid root value: {history_path}"
-        )
+def update_history(snapshot_date, items, history_path="history.json", captured_at=None):
+    history = load_json_list(history_path, "history file")
+    snapshot = {"date": snapshot_date, "items": items}
+    if captured_at:
+        snapshot["captured_at"] = captured_at
 
     if history and history[-1].get("date") == snapshot_date:
-        history[-1] = {"date": snapshot_date, "items": items}
+        history[-1] = snapshot
     else:
-        history.append({"date": snapshot_date, "items": items})
+        history.append(snapshot)
 
-    # Write atomically so an interrupted refresh cannot leave a partial JSON
-    # document that would cause the next run to lose the accumulated history.
-    history_dir = os.path.dirname(os.path.abspath(history_path))
-    fd, temp_path = tempfile.mkstemp(
-        prefix=".history-", suffix=".tmp", dir=history_dir
-    )
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as handle:
-            json.dump(history, handle, indent=2)
-            handle.write("\n")
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temp_path, history_path)
-    except Exception:
-        try:
-            os.unlink(temp_path)
-        except FileNotFoundError:
-            pass
-        raise
+    write_json_atomic(history_path, history)
 
 
 def main():
@@ -522,7 +603,9 @@ def main():
             print(f"{url} | price: not found")
         return
 
-    snapshot_date = date.today().isoformat()
+    captured_at = datetime.now().astimezone().isoformat(timespec="seconds")
+    snapshot_date = captured_at[:10]
+    previous_items = load_json_list(RESULTS_PATH, "results file")
     items = collect_items(snapshot_date)
     for item in items:
         label = item.get("name") or item.get("id")
@@ -534,9 +617,16 @@ def main():
         amazon = item["amazon_price"] if item["amazon_price"] is not None else "not found"
         print(f"{label} | bookswagon: {bookswagon} | amazon: {amazon}")
 
-    with open("results.json", "w", encoding="utf-8") as handle:
-        json.dump(items, handle, indent=2)
-    update_history(snapshot_date, items)
+    events = find_price_drops(previous_items, items, captured_at)
+    write_json_atomic(RESULTS_PATH, items)
+    append_price_events(events)
+    update_history(snapshot_date, items, captured_at=captured_at)
+    try:
+        opened_urls = notify_large_price_drops(events)
+        if opened_urls:
+            print(f"Opened {len(opened_urls)} large price drop(s) in Chrome")
+    except Exception as exc:
+        print(f"Chrome price-drop notification failed: {exc}", file=sys.stderr)
 
 
 if __name__ == "__main__":
