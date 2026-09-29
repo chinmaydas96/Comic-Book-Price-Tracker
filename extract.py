@@ -10,6 +10,7 @@ from datetime import datetime
 from urllib.request import Request, urlopen
 
 from price_drop_notifier import notify_large_price_drops
+from mrp import apply_canonical_mrps, extract_mrp
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BOOKS_PATH = os.path.join(BASE_DIR, "books.json")
@@ -152,6 +153,27 @@ def extract_price_and_stock(html):
         price_match.group("currency"),
         in_stock,
     )
+
+
+# Bookswagon copies that ship in 1-2 days come from local stock, which in
+# practice is damaged/returned copies; new imports take 10+ business days.
+BOOKSWAGON_DAMAGED_MAX_SHIP_DAYS = 2
+
+
+def extract_bookswagon_ship_days(html):
+    """(min, max) business days from the product's own "Ships within 10-12
+    Business Days" label; text elsewhere on the page is ignored."""
+    label = re.search(
+        r'<label[^>]*\bid="[^"]*ProductDetail_lblBusiness"[^>]*>(.*?)</label>', html, re.S | re.I
+    )
+    if not label:
+        return None
+    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", label.group(1)))
+    match = re.search(r"(\d+)(?:\s*(?:-|–|to)\s*(\d+))?\s*(?:Business\s+|Working\s+)?Days?", text, re.I)
+    if not match:
+        return None
+    low = int(match.group(1))
+    return [low, int(match.group(2) or low)]
 
 
 def extract_amazon_price(html):
@@ -304,11 +326,11 @@ def amazon_mobile_url(url):
     return f"https://www.amazon.in/gp/aw/d/{asin_match.group('asin').upper()}"
 
 
-def fetch_amazon_price(url):
+def fetch_amazon_price(url, include_mrp=False):
     html = fetch_amazon_html(url)
     price = normalize_price(extract_amazon_price(html))
     if price is not None:
-        return price
+        return (price, extract_mrp(html, "amazon")) if include_mrp else price
 
     # The standard desktop endpoint is frequently bot-blocked. Amazon's mobile
     # product endpoint often remains readable and contains the same live buybox
@@ -316,8 +338,9 @@ def fetch_amazon_price(url):
     mobile_url = amazon_mobile_url(url)
     if mobile_url and mobile_url != url:
         mobile_html = fetch_amazon_html(mobile_url, attempts=1)
-        return normalize_price(extract_amazon_price(mobile_html))
-    return None
+        price = normalize_price(extract_amazon_price(mobile_html))
+        return (price, extract_mrp(mobile_html, "amazon")) if include_mrp else price
+    return (None, None) if include_mrp else None
 
 
 FLIPKART_HEADERS = {
@@ -335,17 +358,27 @@ def extract_flipkart_price(html):
     """Main product's standard selling price (the "fsp" in Flipkart's "ppd" block).
     Returns None when out of stock. Flipkart keeps showing an "fsp" price even on
     sold-out listings (with a "Notify Me" button), so we also require the buybox
-    availability flag to be true; otherwise the price is not actually buyable."""
+    availability flag to be true; otherwise the price is not actually buyable.
+    "serviceable" (delivery to the requested pincode) is not a stock signal and
+    is false on in-stock pages too, so it is skipped over, not checked."""
     match = re.search(r'"ppd":\s*\{[^}]*?"fsp":(?P<price>\d{2,7})', html)
     if not match:
         return None
-    avail = re.search(r'"available":(true|false),"isPreBook"', html)
+    avail = re.search(
+        r'"available":(true|false),(?:"serviceable":(?:true|false),)?"isPreBook"', html
+    )
     if avail and avail.group(1) == "false":
+        return None
+    # Fallback if the flag moves again: the page's own stock markers.
+    if not avail and (
+        re.search(r'"availability":"https:(?:\\u002f\\u002f|//)schema\.org(?:\\u002f|/)OutOfStock"', html)
+        or "NOTIFY_ME" in html
+    ):
         return None
     return float(match.group("price"))
 
 
-def fetch_flipkart_price(url, attempts=3):
+def fetch_flipkart_price(url, attempts=3, include_mrp=False):
     for attempt in range(attempts):
         try:
             req = Request(url, headers=FLIPKART_HEADERS)
@@ -355,13 +388,13 @@ def fetch_flipkart_price(url, attempts=3):
             html = ""
         price = extract_flipkart_price(html)
         if price is not None:
-            return price
+            return (price, extract_mrp(html, "flipkart")) if include_mrp else price
         if attempt < attempts - 1:
             time.sleep(1.5 * (attempt + 1))
-    return None
+    return (None, None) if include_mrp else None
 
 
-def write_json_atomic(path, data):
+def write_json_atomic(path, data, ensure_ascii=True):
     """Write JSON without exposing readers to a partial document."""
     target_dir = os.path.dirname(os.path.abspath(path))
     fd, temp_path = tempfile.mkstemp(
@@ -369,7 +402,7 @@ def write_json_atomic(path, data):
     )
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as handle:
-            json.dump(data, handle, indent=2)
+            json.dump(data, handle, indent=2, ensure_ascii=ensure_ascii)
             handle.write("\n")
             handle.flush()
             os.fsync(handle.fileno())
@@ -483,8 +516,11 @@ def load_last_known(history_path="history.json"):
             if "price" not in entry and item.get("price") is not None:
                 entry["price"] = item["price"]
                 entry["in_stock"] = item.get("in_stock")
+                entry["bookswagon_mrp"] = item.get("bookswagon_mrp")
+                entry["bookswagon_ship_days"] = item.get("bookswagon_ship_days")
             if "amazon_price" not in entry and item.get("amazon_price") is not None:
                 entry["amazon_price"] = item["amazon_price"]
+                entry["amazon_mrp"] = item.get("amazon_mrp")
             if "flipkart_price" not in entry and item.get("flipkart_price") is not None:
                 entry["flipkart_price"] = item["flipkart_price"]
     return known
@@ -500,6 +536,8 @@ def scrape_book(book, snapshot_date, last_known):
     # Scrape Bookswagon price (skip if no link yet).
     name = book.get("name")
     price_value = None
+    bookswagon_mrp = None
+    bookswagon_ship_days = None
     in_stock = None
     if url:
         try:
@@ -513,6 +551,8 @@ def scrape_book(book, snapshot_date, last_known):
                 name = scraped_name
             price, _currency, in_stock = extract_price_and_stock(html)
             price_value = normalize_price(price)
+            bookswagon_mrp = extract_mrp(html, "bookswagon")
+            bookswagon_ship_days = extract_bookswagon_ship_days(html)
         except Exception:
             price_value = None
             in_stock = None
@@ -523,12 +563,15 @@ def scrape_book(book, snapshot_date, last_known):
             if fallback.get("price") is not None:
                 price_value = fallback["price"]
                 in_stock = fallback.get("in_stock")
+                bookswagon_mrp = fallback.get("bookswagon_mrp")
+                bookswagon_ship_days = fallback.get("bookswagon_ship_days")
 
     # Scrape Amazon India price (skip if no link yet).
     amazon_price = None
+    amazon_mrp = None
     if amazon_url:
         try:
-            amazon_price = fetch_amazon_price(amazon_url)
+            amazon_price, amazon_mrp = fetch_amazon_price(amazon_url, include_mrp=True)
         except Exception:
             amazon_price = None
         # Amazon intermittently serves a bot page; if this run couldn't get a
@@ -537,14 +580,16 @@ def scrape_book(book, snapshot_date, last_known):
             fallback = last_known.get(key, {}).get("amazon_price")
             if fallback is not None:
                 amazon_price = fallback
+                amazon_mrp = last_known.get(key, {}).get("amazon_mrp")
 
     # Scrape Flipkart price (skip if no link yet). A missing price here means
     # out of stock (the page still loads), so it's left as None, not carried
     # forward — otherwise an out-of-stock book would show a stale price.
     flipkart_price = None
+    flipkart_mrp = None
     if flipkart_url:
         try:
-            flipkart_price = fetch_flipkart_price(flipkart_url)
+            flipkart_price, flipkart_mrp = fetch_flipkart_price(flipkart_url, include_mrp=True)
         except Exception:
             flipkart_price = None
 
@@ -555,11 +600,20 @@ def scrape_book(book, snapshot_date, last_known):
         "era": book.get("era"),
         "url": url,
         "price": price_value,
+        "bookswagon_mrp": bookswagon_mrp,
+        "bookswagon_ship_days": bookswagon_ship_days,
+        "bookswagon_damaged": bool(
+            in_stock is not False
+            and bookswagon_ship_days
+            and bookswagon_ship_days[1] <= BOOKSWAGON_DAMAGED_MAX_SHIP_DAYS
+        ),
         "in_stock": in_stock,
         "amazon_url": amazon_url,
         "amazon_price": amazon_price,
+        "amazon_mrp": amazon_mrp,
         "flipkart_url": flipkart_url,
         "flipkart_price": flipkart_price,
+        "flipkart_mrp": flipkart_mrp,
         "snapshot_date": snapshot_date,
     }
 
@@ -576,6 +630,15 @@ def collect_items(snapshot_date, books=None, max_workers=8):
             executor.map(lambda b: scrape_book(b, snapshot_date, last_known), books)
         )
     return items
+
+
+def save_canonical_mrps(items, checked_at, books_path=BOOKS_PATH):
+    """Persist one Bookswagon-sourced MRP per book (including disabled ones)."""
+    with open(books_path, "r", encoding="utf-8") as handle:
+        books = json.load(handle)
+    if apply_canonical_mrps(books, items, checked_at):
+        # books.json is hand-edited, so keep its characters unescaped.
+        write_json_atomic(books_path, books, ensure_ascii=False)
 
 
 def update_history(snapshot_date, items, history_path="history.json", captured_at=None):
@@ -620,6 +683,7 @@ def main():
     events = find_price_drops(previous_items, items, captured_at)
     write_json_atomic(RESULTS_PATH, items)
     append_price_events(events)
+    save_canonical_mrps(items, captured_at)
     update_history(snapshot_date, items, captured_at=captured_at)
     try:
         opened_urls = notify_large_price_drops(events)

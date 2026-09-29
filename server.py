@@ -11,6 +11,7 @@ HISTORY_PATH = os.path.join(BASE_DIR, "history.json")
 EVENTS_PATH = os.path.join(BASE_DIR, "price_events.json")
 EXTRACT_PATH = os.path.join(BASE_DIR, "extract.py")
 BOOKS_PATH = os.path.join(BASE_DIR, "books.json")
+SELLER_OFFERS_PATH = os.path.join(BASE_DIR, "independent_seller_offers.json")
 MIN_PRICE_DROP_PERCENT = 1
 
 RUN_LOCK = threading.Lock()
@@ -41,9 +42,21 @@ def get_latest_mtime():
 def load_books():
     try:
         with open(BOOKS_PATH, "r", encoding="utf-8") as handle:
-            return [book for book in json.load(handle) if not book.get("disabled", False)]
+            books = [book for book in json.load(handle) if not book.get("disabled", False)]
     except (FileNotFoundError, json.JSONDecodeError):
         return []
+    try:
+        with open(SELLER_OFFERS_PATH, encoding="utf-8") as handle:
+            offers = json.load(handle).get("offers", [])
+        offers = {offer["isbn"]: offer for offer in offers if offer.get("isbn")}
+    except (OSError, json.JSONDecodeError):
+        offers = {}
+    for book in books:
+        isbn = (book.get("bookswagon_url") or "").rstrip("/").rsplit("/", 1)[-1]
+        offer = offers.get(isbn)
+        if offer and book.get("independent_price") == offer.get("final_price"):
+            book["independent_original_price"] = offer.get("original_price")
+    return books
 
 
 def load_history():

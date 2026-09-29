@@ -307,6 +307,15 @@ h1 {
   background: var(--amazon);
 }
 
+.actions button.damaged-toggle[aria-checked="true"] {
+  border-color: #dc2626;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.damaged-toggle[aria-checked="true"] .toggle-track {
+  background: #dc2626;
+}
+
 /* ---------- Today's price drops ---------- */
 .movers {
   margin-top: 20px;
@@ -587,6 +596,51 @@ a.price-row.linked:hover .go {
 .price-row .amount {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+}
+
+.price-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  text-align: right;
+}
+
+.price-row {
+  gap: 10px;
+}
+
+.discount-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.damaged-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.discount-badge.above {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.discount-badge.unknown, .price-reference {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 400;
+}
+
+.discount-badge.unknown {
+  background: transparent;
+  padding: 0;
 }
 
 .price-row.na .amount {

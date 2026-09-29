@@ -6,7 +6,7 @@ const DATA_POLL_MS = 60 * 1000;
 // Per-franchise accent colors — the UI recolors itself around the era/franchise.
 const FRANCHISE_ACCENTS = {
   "Batman": "#f5c518",
-  "Nightwing / Red Hood": "#6366f1",
+  "Nightwing / Red Hood / Robin": "#6366f1",
   "Justice League": "#3b82f6",
   "Crisis / Universe Events": "#a855f7",
   "Green Lantern": "#22c55e",
@@ -16,6 +16,7 @@ const FRANCHISE_ACCENTS = {
   "Young Justice / Teen Titans": "#ec4899",
   "Justice League Dark": "#14b8a6",
   "Elseworld": "#8b5cf6",
+  "Other Characters": "#f97316",
 };
 const DEFAULT_ACCENT = "#3b82f6";
 
@@ -33,6 +34,8 @@ const updatedEl = document.getElementById("last-updated");
 const refreshBtn = document.getElementById("refresh-btn");
 const rebirthFilterBtn = document.getElementById("rebirth-filter-btn");
 const unreleasedFilterBtn = document.getElementById("unreleased-filter-btn");
+const discountFilterBtn = document.getElementById("discount-filter-btn");
+const damagedFilterBtn = document.getElementById("damaged-filter-btn");
 const statsRow = document.getElementById("stats-row");
 const filtersEl = document.getElementById("filters");
 const moversEl = document.getElementById("movers");
@@ -47,6 +50,8 @@ let hideRebirth = false;
 let extractionInProgress = false;
 // Start with forthcoming books hidden every time the dashboard is opened.
 let hideUnreleased = true;
+let onlyDiscounted = false;
+let onlyDamaged = false;
 
 // The toggle is a cutoff: it hides Rebirth itself and every later era.
 const isRebirthOrLaterEra = (book) =>
@@ -68,7 +73,27 @@ const isUnreleased = (book) =>
   book.unreleased === true || Boolean(book.release_date && book.release_date > todayISO());
 
 const visibleBooks = () =>
-  eraScopedBooks().filter((book) => !hideUnreleased || !isUnreleased(book));
+  eraScopedBooks().filter((book) =>
+    (!hideUnreleased || !isUnreleased(book)) &&
+    (!onlyDiscounted || hasMinimumDiscount(book)) &&
+    (!onlyDamaged || hasDamagedCopy(book))
+  );
+
+// A buyable Bookswagon copy that ships in 1-2 days (see damagedBadge).
+function hasDamagedCopy(book) {
+  const item = latestItem(book);
+  return Boolean(item && item.bookswagon_damaged) && priceInfo(book).bookswagon != null;
+}
+
+function hasMinimumDiscount(book) {
+  const info = priceInfo(book);
+  return ["bookswagon", "amazon", "flipkart", "independent"].some((store) => {
+    const amount = info[store];
+    const reference = discountReference(book, info, store);
+    return Number.isFinite(amount) && amount > 0 && reference != null &&
+      reference.isMrp !== false && amount * 100 <= reference.value * 60;
+  });
+}
 
 function filteredBooks() {
   const books = visibleBooks();
@@ -103,7 +128,7 @@ function allTimeLow(book) {
     const item = snapshot.items.find((entry) => itemMatchesBook(entry, book));
     if (!item) return;
     [
-      ["Bookswagon", item.price],
+      ["Bookswagon", bookswagonPrice(item)],
       ["Amazon", item.amazon_price],
       ["Flipkart", book.flipkart_url ? item.flipkart_price : null],
     ].forEach(([store, val]) => {
@@ -113,6 +138,10 @@ function allTimeLow(book) {
   });
   return low;
 }
+
+// A price only counts while the listing is actually buyable.
+const bookswagonPrice = (item) =>
+  item && item.price != null && item.in_stock !== false ? item.price : null;
 
 function itemMatchesBook(item, book) {
   if (item.id && book.id && item.id === book.id) return true;
@@ -128,7 +157,7 @@ function buildSeries(book) {
     const item = snapshot.items.find((entry) => itemMatchesBook(entry, book));
     if (!item) return;
     dates.push(snapshot.date);
-    bookswagon.push(availablePrice(item.price));
+    bookswagon.push(availablePrice(bookswagonPrice(item)));
     amazon.push(availablePrice(item.amazon_price));
     flipkart.push(book.flipkart_url ? availablePrice(item.flipkart_price) : null);
   });
@@ -146,8 +175,7 @@ function latestItem(book) {
 // Resolve prices + who wins for a book from its latest snapshot.
 function priceInfo(book) {
   const item = latestItem(book);
-  const bookswagonRaw =
-    item && item.price != null && item.in_stock !== false ? item.price : null;
+  const bookswagonRaw = bookswagonPrice(item);
   const amazonRaw = item && item.amazon_price != null ? item.amazon_price : null;
   const flipkartRaw = book.flipkart_url && item && item.flipkart_price != null ? item.flipkart_price : null;
   const bookswagon = availablePrice(bookswagonRaw);
@@ -343,13 +371,35 @@ function renderFilters() {
 }
 
 /* ---------------- Cards ---------------- */
-function priceRow(label, amount, dotClass, isBest, href, overCap) {
+function discountReference(book, info, store) {
+  const valid = (value) => Number.isFinite(value) && value > 0;
+  // One Indian MRP per book, shared by every seller. Per-seller MRPs disagree
+  // for the same edition, so they are never used as a discount reference.
+  if (valid(book.mrp)) return { value: book.mrp, label: "MRP" };
+  if (store === "independent" && valid(book.independent_original_price)) {
+    return { value: book.independent_original_price, label: "Quoted original", isMrp: false };
+  }
+  return null;
+}
+
+function discountBadge(amount, reference) {
+  if (!Number.isFinite(amount) || amount <= 0) return "";
+  if (!reference) return '<span class="discount-badge unknown">MRP unavailable</span>';
+  const percent = (reference.value - amount) / reference.value * 100;
+  const rounded = Math.abs(percent).toLocaleString("en-IN", { maximumFractionDigits: 1 });
+  const label = percent < 0 ? `${rounded}% above` : `${rounded}% off`;
+  return `<span class="discount-badge${percent < 0 ? " above" : ""}">${label}</span>
+    <span class="price-reference">${reference.label} ${formatCurrency(reference.value)}</span>`;
+}
+
+function priceRow(label, amount, dotClass, isBest, href, overCap, reference = null, flag = "") {
   const cls = amount == null ? "price-row na" : isBest ? "price-row best" : "price-row";
   const value = amount == null ? (overCap ? "Not available" : "—") : formatCurrency(amount);
   const tag = isBest ? '<span class="tag">Best</span>' : "";
   const inner = `
     <span class="store"><i class="dot ${dotClass}"></i>${label}</span>
-    <span class="amount">${value}${tag}<i class="go" aria-hidden="true">↗</i></span>`;
+    <span class="price-detail"><span class="amount">${value}${tag}<i class="go" aria-hidden="true">↗</i></span>
+    ${discountBadge(amount, reference)}${amount == null ? "" : flag}</span>`;
   // Each store row links straight to its own listing, so both stores are
   // reachable regardless of which one currently wins the Buy button. An
   // over-cap ("Not available") store isn't buyable, so it isn't linked.
@@ -357,6 +407,15 @@ function priceRow(label, amount, dotClass, isBest, href, overCap) {
     return `<a class="${cls} linked" href="${href}" target="_blank" rel="noopener noreferrer">${inner}</a>`;
   }
   return `<div class="${cls}">${inner}</div>`;
+}
+
+// Bookswagon's 1-2 day shipping means local stock, which is damaged copies.
+function damagedBadge(book) {
+  const item = latestItem(book);
+  if (!item || !item.bookswagon_damaged) return "";
+  const [low, high] = item.bookswagon_ship_days || [];
+  const days = low === high ? `${low}` : `${low}–${high}`;
+  return `<span class="damaged-badge" title="Ships in ${days} business day(s) — Bookswagon's fast-ship copies are usually damaged">Damaged</span>`;
 }
 
 function renderCard(book, accent) {
@@ -396,12 +455,11 @@ function renderCard(book, accent) {
     <h3>${book.name}</h3>
     ${releaseHtml}
     <div class="price-rows">
-      ${priceRow("Bookswagon", info.bookswagon, "bookswagon", info.best === "bookswagon", book.bookswagon_url, info.bookswagonOver)}
-      ${priceRow("Amazon", info.amazon, "amazon", info.best === "amazon", book.amazon_url, info.amazonOver)}
-      ${book.flipkart_url ? priceRow("Flipkart", info.flipkart, "flipkart", info.best === "flipkart", book.flipkart_url, info.flipkartOver) : ""}
-      ${priceRow("Independent seller", info.independent, "independent", info.best === "independent", null, false)}
+      ${priceRow("Bookswagon", info.bookswagon, "bookswagon", info.best === "bookswagon", book.bookswagon_url, info.bookswagonOver, discountReference(book, info, "bookswagon"), damagedBadge(book))}
+      ${priceRow("Amazon", info.amazon, "amazon", info.best === "amazon", book.amazon_url, info.amazonOver, discountReference(book, info, "amazon"))}
+      ${book.flipkart_url ? priceRow("Flipkart", info.flipkart, "flipkart", info.best === "flipkart", book.flipkart_url, info.flipkartOver, discountReference(book, info, "flipkart")) : ""}
+      ${priceRow("Independent seller", info.independent, "independent", info.best === "independent", null, false, discountReference(book, info, "independent"))}
     </div>
-    ${info.independent != null ? '<p class="muted small">Seller quote · final price after 32% off</p>' : ""}
     ${lowHtml}
     <div class="card-foot">${savingsText}${buy}</div>
     <div class="spark"><canvas></canvas></div>
@@ -590,6 +648,8 @@ function renderDashboard() {
   // Render filters first because a visibility toggle can invalidate the active
   // franchise and reset it to All.
   updateUnreleasedToggle();
+  discountFilterBtn.setAttribute("aria-checked", String(onlyDiscounted));
+  updateDamagedToggle();
   renderFilters();
   renderStats();
   renderMovers();
@@ -673,6 +733,12 @@ themeBtn.addEventListener("click", () => {
   applyTheme(current === "light" ? "dark" : "light");
 });
 
+function updateDamagedToggle() {
+  const count = eraScopedBooks().filter(hasDamagedCopy).length;
+  damagedFilterBtn.setAttribute("aria-checked", String(onlyDamaged));
+  damagedFilterBtn.title = `${count} book${count === 1 ? "" : "s"} with a damaged Bookswagon copy (ships in 1–2 days)`;
+}
+
 rebirthFilterBtn.addEventListener("click", () => {
   hideRebirth = !hideRebirth;
   activeFilter = "All";
@@ -682,6 +748,16 @@ rebirthFilterBtn.addEventListener("click", () => {
 
 unreleasedFilterBtn.addEventListener("click", () => {
   hideUnreleased = !hideUnreleased;
+  renderDashboard();
+});
+
+discountFilterBtn.addEventListener("click", () => {
+  onlyDiscounted = !onlyDiscounted;
+  renderDashboard();
+});
+
+damagedFilterBtn.addEventListener("click", () => {
+  onlyDamaged = !onlyDamaged;
   renderDashboard();
 });
 
