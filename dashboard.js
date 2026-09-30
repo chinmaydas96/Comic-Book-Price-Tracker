@@ -35,6 +35,8 @@ const refreshBtn = document.getElementById("refresh-btn");
 const rebirthFilterBtn = document.getElementById("rebirth-filter-btn");
 const unreleasedFilterBtn = document.getElementById("unreleased-filter-btn");
 const discountFilterBtn = document.getElementById("discount-filter-btn");
+const discountFilterLabel = document.getElementById("discount-filter-label");
+const discountSlider = document.getElementById("discount-slider");
 const damagedFilterBtn = document.getElementById("damaged-filter-btn");
 const statsRow = document.getElementById("stats-row");
 const filtersEl = document.getElementById("filters");
@@ -51,6 +53,14 @@ let extractionInProgress = false;
 // Start with forthcoming books hidden every time the dashboard is opened.
 let hideUnreleased = true;
 let onlyDiscounted = false;
+// Minimum % off MRP for the discount filter; the slider runs 30–100.
+const MIN_DISCOUNT_FLOOR = 30;
+const MIN_DISCOUNT_CEIL = 100;
+let minDiscount = 40;
+try {
+  const saved = Number(localStorage.getItem("minDiscount"));
+  if (saved >= MIN_DISCOUNT_FLOOR && saved <= MIN_DISCOUNT_CEIL) minDiscount = saved;
+} catch (_) {}
 let onlyDamaged = false;
 
 // The toggle is a cutoff: it hides Rebirth itself and every later era.
@@ -91,7 +101,7 @@ function hasMinimumDiscount(book) {
     const amount = info[store];
     const reference = discountReference(book, info, store);
     return Number.isFinite(amount) && amount > 0 && reference != null &&
-      reference.isMrp !== false && amount * 100 <= reference.value * 60;
+      reference.isMrp !== false && (reference.value - amount) * 100 >= reference.value * minDiscount;
   });
 }
 
@@ -648,7 +658,7 @@ function renderDashboard() {
   // Render filters first because a visibility toggle can invalidate the active
   // franchise and reset it to All.
   updateUnreleasedToggle();
-  discountFilterBtn.setAttribute("aria-checked", String(onlyDiscounted));
+  updateDiscountFilter();
   updateDamagedToggle();
   renderFilters();
   renderStats();
@@ -751,8 +761,27 @@ unreleasedFilterBtn.addEventListener("click", () => {
   renderDashboard();
 });
 
+function updateDiscountFilter() {
+  const count = eraScopedBooks().filter(hasMinimumDiscount).length;
+  discountFilterBtn.setAttribute("aria-checked", String(onlyDiscounted));
+  discountFilterLabel.textContent = `${minDiscount}%+ discount`;
+  discountFilterBtn.title = `${count} book${count === 1 ? "" : "s"} with an available seller at least ${minDiscount}% below MRP`;
+  discountSlider.value = String(minDiscount);
+  discountSlider.setAttribute("aria-valuetext", `${minDiscount} percent`);
+}
+
 discountFilterBtn.addEventListener("click", () => {
   onlyDiscounted = !onlyDiscounted;
+  renderDashboard();
+});
+
+// Dragging the slider turns the filter on at the chosen minimum.
+discountSlider.addEventListener("input", () => {
+  minDiscount = Number(discountSlider.value);
+  onlyDiscounted = true;
+  try {
+    localStorage.setItem("minDiscount", String(minDiscount));
+  } catch (_) {}
   renderDashboard();
 });
 

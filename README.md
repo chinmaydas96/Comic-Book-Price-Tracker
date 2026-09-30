@@ -28,18 +28,23 @@ dashboard.
   store page in a new Chrome window once per unique price transition.
 - **Franchise filter** — filter the whole dashboard by franchise, each with its own
   accent color.
-- **40%+ discount filter** — show books with at least one available seller price
-  at least 40% below a verified MRP. Works with franchise, era and release filters
-  and updates the counts, totals and price-drop panel. Original seller quotes
+- **Discount filter + slider** — show books with at least one available seller
+  price at least N% below a verified MRP, where N is set with the slider (30–100%,
+  default 40%, remembered in the browser). Dragging the slider turns the filter on.
+  Works with franchise, era and release filters and updates the counts, totals and
+  price-drop panel. Original seller quotes
   alone do not qualify as verified MRPs; all seller rows remain visible for comparison.
 - **Seller discount badges** — each available price shows its percentage off MRP
-  when a reference is known. Every book has one MRP, shared by all sellers, taken
-  from Bookswagon's INR list price; Amazon and Flipkart MRPs are never used because
-  they differ from seller to seller. It is saved as `mrp` in `books.json`, with
-  `mrp_store`, `mrp_source`, and `mrp_checked_at` recording where and when it was
-  checked, and is refreshed on each scrape. Books without one show “MRP unavailable”.
-  Prices above MRP are labelled “above”. The independent seller falls back to its
-  saved original quote, labelled “Quoted original”, only when no MRP exists.
+  when a reference is known. Every book has one MRP, shared by all sellers: its
+  US cover price × 90, rounded to the rupee (a $150 omnibus is ₹13,500). The US
+  price is saved as `us_price` in `books.json`; for a newly added book the scraper
+  looks it up once on Penguin Random House Comics (DC's distributor). If no US
+  price is known, Bookswagon's INR list price is used instead. Amazon and Flipkart
+  MRPs are never used because they differ from seller to seller. `mrp_store`,
+  `mrp_source`, and `mrp_checked_at` record where the MRP came from. Books without
+  one show “MRP unavailable”. Prices above MRP are labelled “above”. The
+  independent seller falls back to its saved original quote, labelled “Quoted
+  original”, only when no MRP exists.
 - **Hide Rebirth+ toggle** — exclude Rebirth and every later publishing era
   (including Infinite Frontier and Dawn of DC), then recalculate the summary
   metrics, franchise counts, and price-drop panel for the remaining set.

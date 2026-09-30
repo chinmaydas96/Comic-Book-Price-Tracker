@@ -2376,5 +2376,70 @@
     "from": 11563.0,
     "to": 10831.0,
     "delta": -732.0
+  },
+  {
+    "event_id": "2026-09-29T18:15:04+05:30|nightwing-knight-in-bludhaven-compendium-vol-1|Bookswagon|3110|2855",
+    "captured_at": "2026-09-29T18:15:04+05:30",
+    "date": "2026-09-29",
+    "book_id": "nightwing-knight-in-bludhaven-compendium-vol-1",
+    "name": "Nightwing: A Knight in Bludhaven Compendium Book One",
+    "franchise": "Nightwing / Red Hood / Robin",
+    "store": "Bookswagon",
+    "url": "https://www.bookswagon.com/book/x/9781779525864",
+    "from": 3110.0,
+    "to": 2855.0,
+    "delta": -255.0
+  },
+  {
+    "event_id": "2026-09-29T21:02:15+05:30|batman-detective-comics-tamaki-omnibus|Bookswagon|8366|7489",
+    "captured_at": "2026-09-29T21:02:15+05:30",
+    "date": "2026-09-29",
+    "book_id": "batman-detective-comics-tamaki-omnibus",
+    "name": "Batman: Detective Comics by Mariko Tamaki Omnibus",
+    "franchise": "Batman",
+    "store": "Bookswagon",
+    "url": "https://www.bookswagon.com/book/x/9781799502401",
+    "from": 8366.0,
+    "to": 7489.0,
+    "delta": -877.0
+  },
+  {
+    "event_id": "2026-09-29T21:02:15+05:30|superman-new-krypton-saga-omnibus-vol-1|Bookswagon|10344|7875",
+    "captured_at": "2026-09-29T21:02:15+05:30",
+    "date": "2026-09-29",
+    "book_id": "superman-new-krypton-saga-omnibus-vol-1",
+    "name": "Superman: New Krypton Saga Omnibus Vol. 1",
+    "franchise": "Superman",
+    "store": "Bookswagon",
+    "url": "https://www.bookswagon.com/book/x/9781799507376",
+    "from": 10344.0,
+    "to": 7875.0,
+    "delta": -2469.0
+  },
+  {
+    "event_id": "2026-09-29T21:58:04+05:30|batman-zdarsky-omnibus-vol-1|Amazon|9634|9026",
+    "captured_at": "2026-09-29T21:58:04+05:30",
+    "date": "2026-09-29",
+    "book_id": "batman-zdarsky-omnibus-vol-1",
+    "name": "Batman by Chip Zdarsky Omnibus Vol. 1",
+    "franchise": "Batman",
+    "store": "Amazon",
+    "url": "https://www.amazon.in/dp/1799507815",
+    "from": 9634.0,
+    "to": 9026.0,
+    "delta": -608.0
+  },
+  {
+    "event_id": "2026-09-30T11:59:00+05:30|batman-detective-comics-ram-v-omnibus|Amazon|11425|10757",
+    "captured_at": "2026-09-30T11:59:00+05:30",
+    "date": "2026-09-30",
+    "book_id": "batman-detective-comics-ram-v-omnibus",
+    "name": "Batman: Detective Comics by Ram V Omnibus",
+    "franchise": "Batman",
+    "store": "Amazon",
+    "url": "https://www.amazon.in/dp/1799509060",
+    "from": 11425.0,
+    "to": 10757.0,
+    "delta": -668.0
   }
 ]

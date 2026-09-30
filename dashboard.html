@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DC Omnibus Tracker</title>
-    <link rel="stylesheet" href="dashboard.css?v=18" />
+    <link rel="stylesheet" href="dashboard.css?v=19" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
@@ -42,18 +42,28 @@
             <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
             <span>Hide unreleased</span>
           </button>
-          <button
-            id="discount-filter-btn"
-            type="button"
-            class="ghost era-toggle"
-            role="switch"
-            aria-checked="false"
-            aria-label="Only books with at least 40 percent off MRP at an available seller"
-            title="Show books with at least one available seller offering 40% or more off verified MRP"
-          >
-            <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
-            <span>40%+ discount</span>
-          </button>
+          <div class="discount-filter">
+            <button
+              id="discount-filter-btn"
+              type="button"
+              class="ghost era-toggle"
+              role="switch"
+              aria-checked="false"
+              aria-label="Only books with at least the chosen discount off MRP at an available seller"
+            >
+              <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+              <span id="discount-filter-label">40%+ discount</span>
+            </button>
+            <input
+              id="discount-slider"
+              type="range"
+              min="30"
+              max="100"
+              step="1"
+              value="40"
+              aria-label="Minimum discount off MRP, in percent"
+            />
+          </div>
           <button
             id="damaged-filter-btn"
             type="button"
@@ -95,6 +105,6 @@
       </footer>
     </div>
 
-    <script src="dashboard.js?v=25"></script>
+    <script src="dashboard.js?v=26"></script>
   </body>
 </html>

@@ -52,19 +52,71 @@ def extract_mrp(html, store):
 
 
 CANONICAL_MRP_STORE = "Bookswagon"
+US_PRICE_STORE = "US price × 90"
+# Indian MRP for DC books = US cover price × this rate, rounded to the rupee.
+USD_TO_INR = 90
+PRH_BOOK_URL = "https://prhcomics.com/book/?isbn={isbn}"
+
+
+def book_isbn(book):
+    """ISBN-13 from the book's Bookswagon URL, else from its Amazon ISBN-10."""
+    match = re.search(r"(97[89]\d{10})", book.get("bookswagon_url") or "")
+    if match:
+        return match.group(1)
+    match = re.search(r"/dp/(\d{9}[\dX])", book.get("amazon_url") or "")
+    if not match:
+        return None
+    core = "978" + match.group(1)[:9]
+    total = sum(int(d) * (1 if i % 2 == 0 else 3) for i, d in enumerate(core))
+    return core + str((10 - total % 10) % 10)
+
+
+def extract_us_price(html):
+    """The book's own US price on its Penguin Random House Comics page;
+    recommendation carousels on the same page are ignored."""
+    match = re.search(
+        r'data-component="book-detail-meta-price-numbers"[^>]*>\s*([\d,]+(?:\.\d{1,2})?)\s*<', html
+    )
+    if not match:
+        return None
+    value = float(match.group(1).replace(",", ""))
+    return value if value > 0 else None
+
+
+def fetch_us_price(isbn, timeout=30):
+    from urllib.request import Request, urlopen
+
+    request = Request(PRH_BOOK_URL.format(isbn=isbn), headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            html = response.read().decode("utf-8", errors="ignore")
+    except Exception:
+        return None
+    return extract_us_price(html)
 
 
 def apply_canonical_mrps(books, items, checked_at):
-    """Give each book one MRP, taken only from Bookswagon's INR list price.
+    """Give each book one MRP, the same for every seller.
 
-    Sellers quote different reference prices for the same edition, so a
-    per-seller MRP would make discounts inconsistent. A book whose fresh scrape
-    found no Bookswagon MRP keeps its saved Bookswagon value; a saved value from
-    any other source is removed. Returns True if any book changed."""
+    A book with a saved `us_price` (its US cover price) gets
+    round(us_price × USD_TO_INR). Otherwise it falls back to Bookswagon's INR
+    list price: a book whose fresh scrape found none keeps its saved Bookswagon
+    value, and a value from any other source is removed. Sellers quote
+    different reference prices for the same edition, so per-seller MRPs are
+    never used. Returns True if any book changed."""
     fresh = {item.get("id"): item["bookswagon_mrp"] for item in items if item.get("bookswagon_mrp")}
     changed = False
     for book in books:
-        if book.get("id") in fresh:
+        if book.get("us_price"):
+            update = {
+                "mrp": float(round(book["us_price"] * USD_TO_INR)),
+                "mrp_store": US_PRICE_STORE,
+                "mrp_source": PRH_BOOK_URL.format(isbn=book_isbn(book)),
+            }
+            if any(book.get(key) != value for key, value in update.items()):
+                book.update(update, mrp_checked_at=checked_at)
+                changed = True
+        elif book.get("id") in fresh:
             book.update(
                 mrp=fresh[book["id"]],
                 mrp_store=CANONICAL_MRP_STORE,

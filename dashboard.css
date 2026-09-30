@@ -316,6 +316,18 @@ h1 {
   background: #dc2626;
 }
 
+.discount-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#discount-slider {
+  width: 120px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 /* ---------- Today's price drops ---------- */
 .movers {
   margin-top: 20px;

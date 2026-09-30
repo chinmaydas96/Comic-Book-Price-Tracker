@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import extract
 import server
-from mrp import apply_canonical_mrps, extract_mrp
+from mrp import apply_canonical_mrps, extract_mrp, extract_us_price
 
 
 class MrpTests(unittest.TestCase):
@@ -120,6 +120,27 @@ class MrpTests(unittest.TestCase):
         with patch.object(extract, 'fetch_html', return_value=''):
             item = extract.scrape_book(book, 'd', {'t': {'price': 500, 'in_stock': True, 'bookswagon_ship_days': [1, 2]}})
         self.assertEqual((item['price'], item['bookswagon_damaged']), (500, True))
+
+    def test_us_price_times_rate_wins_over_bookswagon(self):
+        books = [
+            {'id': 'a', 'bookswagon_url': 'https://bw/9781799508045', 'us_price': 49.99, 'mrp': 4850, 'mrp_store': 'Bookswagon'},
+            {'id': 'b', 'bookswagon_url': 'https://bw/9781779525932', 'us_price': 150.0},
+        ]
+        items = [{'id': 'a', 'bookswagon_mrp': 4850}, {'id': 'b', 'bookswagon_mrp': 14550}]
+        self.assertTrue(apply_canonical_mrps(books, items, 'now'))
+        self.assertEqual((books[0]['mrp'], books[0]['mrp_store']), (4499, 'US price × 90'))
+        self.assertEqual(books[1]['mrp'], 13500)
+        self.assertIn('9781779525932', books[1]['mrp_source'])
+        # Nothing changes on a re-run, so books.json is not rewritten every scrape.
+        self.assertFalse(apply_canonical_mrps(books, items, 'later'))
+        self.assertEqual(books[1]['mrp_checked_at'], 'now')
+
+    def test_us_price_reads_book_not_carousel(self):
+        page = ('<div class="book-detail-price"><div class="price-usd">$<span class="price-numbers" '
+                'data-component="book-detail-meta-price-numbers">100.00</span> US</div></div>'
+                '<span class="price-usa">$17.99 US</span>')
+        self.assertEqual(extract_us_price(page), 100.0)
+        self.assertIsNone(extract_us_price('<span class="price-usa">$17.99 US</span>'))
 
 
 if __name__ == '__main__':

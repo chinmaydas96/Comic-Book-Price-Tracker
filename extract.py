@@ -10,7 +10,7 @@ from datetime import datetime
 from urllib.request import Request, urlopen
 
 from price_drop_notifier import notify_large_price_drops
-from mrp import apply_canonical_mrps, extract_mrp
+from mrp import apply_canonical_mrps, book_isbn, extract_mrp, fetch_us_price
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BOOKS_PATH = os.path.join(BASE_DIR, "books.json")
@@ -633,10 +633,19 @@ def collect_items(snapshot_date, books=None, max_workers=8):
 
 
 def save_canonical_mrps(items, checked_at, books_path=BOOKS_PATH):
-    """Persist one Bookswagon-sourced MRP per book (including disabled ones)."""
+    """Persist one MRP per book (including disabled ones): US price × 90, or
+    Bookswagon's list price when no US price is known. A newly added book's US
+    price is looked up once and saved as `us_price`."""
     with open(books_path, "r", encoding="utf-8") as handle:
         books = json.load(handle)
-    if apply_canonical_mrps(books, items, checked_at):
+    found_us_price = False
+    for book in books:
+        if not book.get("us_price") and not book.get("disabled") and book_isbn(book):
+            us_price = fetch_us_price(book_isbn(book))
+            if us_price:
+                book["us_price"] = us_price
+                found_us_price = True
+    if apply_canonical_mrps(books, items, checked_at) or found_us_price:
         # books.json is hand-edited, so keep its characters unescaped.
         write_json_atomic(books_path, books, ensure_ascii=False)
 
